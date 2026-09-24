@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Евангельские заповеди — прототип</title>
+
+<style>
+/* ============================================================
+   ВАШ CSS (как есть из файла css ИТОГ_с правками на мобильном)
+   ============================================================ */
+@font-face{
+  font-family:'Kindenosca';
+  src:url('https://uralzvon.site/new_font/Kindentosca.otf') format('opentype');
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+#evangelie-page{
+  --ev-text:#514b43;
+  --ev-muted:#766f65;
+  --ev-beige:#e9dcc4;
+  --ev-beige-soft:#f8f4ed;
+  --ev-beige-hover:#e9dbc6;
+  --ev-border:#d9c8ac;
+  --ev-mark:#f6f0e7;
+  --ev-mark-current:#ebe1d2;
+  font-family:inherit;
+  color:var(--ev-text);
+  line-height:1.58;
+  max-width:100%;
+  font-size:18px;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+#evangelie-page *,
+#evangelie-page *::before,
+#evangelie-page *::after{
+  box-sizing:border-box;
+}
+
+#evangelie-page .ev-tools{
+  background:#fff;
+  padding:0 0 12px;
+  margin:0;
+}
+
+/* SEARCH */
+#evangelie-page .ev-search{
+  position:sticky;
+  top:139px;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  flex-wrap:nowrap;
+  gap:8px;
+  width:100%;
+  max-width:100%;
+  margin:19px 0;
+  padding:17px 20px 17px 30px;
+  box-sizing:border-box;
+  background:#faf7f1;
+  border-top:1px solid #d9cdbb;
+  border-bottom:1px solid #d9cdbb;
+  box-shadow:0 3px 12px rgba(96,82,64,.14);
+}
+
+#evangelie-page.ev-search-active .ev-search{
+  position:fixed;
+  top:139px;
+  left:var(--ev-search-left,0);
+  width:var(--ev-search-width,100%);
+  margin:0;
+  padding:9px 20px;
+  z-index:1000;
+  background:#faf7f1;
+  border-top:1px solid #d9cdbb;
+  border-bottom:1px solid #d9cdbb;
+  box-shadow:0 2px 7px rgba(96,82,64,.10);
+}
+
+#evangelie-page .ev-search > *{
+  box-sizing:border-box;
+  align-self:center;
+  flex:0 0 auto;
+}
+
+#evangelie-page .ev-search .ev-search-input{
+  order: 1;
+  width:460px;
+  max-width:460px;
+  min-width:0;
+  height:36px;
+  margin:0;
+  border:1px solid #c7b69d;
+  border-radius:7px;
+  padding:7px 10px;
+  background:#fffdf9;
+  color:var(--ev-text);
+  font-family:inherit;
+  font-size:.9em;
+  line-height:1.2;
+  box-shadow:none;
+  flex: 0 0 460px;
+}
+
+#evangelie-page .ev-search .ev-search-input:focus{
+  outline:2px solid rgba(183,156,119,.30);
+  border-color:#b8a07d;
+}
+
+#evangelie-page .ev-search .ev-search-nav{
+  order: 2;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:6px;
+  margin:0 0 0 2px;
+  padding:0;
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+
+#evangelie-page .ev-search .ev-search-nav .ev-btn,
+#evangelie-page .ev-search .ev-btn.ev-search-arrow{
+  width:32px;
+  min-width:32px;
+  max-width:32px;
+  height:32px;
+  min-height:32px;
+  max-height:32px;
+  padding:0;
+  border-radius:7px !important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  text-align:center;
+  flex:0 0 auto;
+  font-size:.9em;
+}
+
+#evangelie-page .ev-search .ev-search-nav .ev-btn:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+#evangelie-page .ev-search .ev-search-current{
+  font-size:.82em;
+  color:var(--ev-muted);
+  min-width:52px;
+  width:52px;
+  text-align:center;
+  white-space:nowrap;
+  line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  box-sizing:border-box;
+  padding:0 2px;
+}
+
+#evangelie-page .ev-search .ev-clear-search{
+  order: 3;
+  width:32px;
+  min-width:32px;
+  max-width:32px;
+  height:32px;
+  min-height:32px;
+  max-height:32px;
+  padding:0;
+  border-radius:7px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:1;
+  text-align:center;
+  font-size:17px;
+  font-weight:400;
+  transform:none !important;
+  margin:0 0 0 2px !important;
+  flex:0 0 auto;
+}
+
+#evangelie-page .ev-search .ev-clear-search .ev-clear-glyph{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+}
+
+#evangelie-page .ev-search .ev-search-status{
+  order: 4;
+  font-size:.82em;
+  color:var(--ev-muted);
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:left;
+  margin:0 0 0 12px;
+  flex:0 1 auto;
+  display:none;
+}
+
+#evangelie-page .ev-search.ev-no-results .ev-search-status{
+  display:inline-block;
+}
+
+#evangelie-page .ev-search.ev-no-results .ev-search-nav{
+  display:none;
+}
+
+#evangelie-page .ev-search > p,
+#evangelie-page .ev-search-nav > p{
+  display:contents !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+
+@media(max-width:650px){
+  #evangelie-page .ev-search{
+    padding:7px 8px;
+    gap:6px;
+    flex-wrap:nowrap;
+  }
+  #evangelie-page .ev-search .ev-search-input{
+    flex:1 1 auto;
+    width:auto;
+    max-width:none;
+    min-width:0;
+  }
+  #evangelie-page .ev-search .ev-search-status{
+    font-size:.78em;
+    margin-left:6px;
+  }
+}
+
+/* GLOBAL BUTTONS */
+#evangelie-page .ev-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  align-items:center;
+  gap:18px;
+  margin:12px 0 15px;
+  padding:0;
+}
+
+#evangelie-page .ev-actions .ev-btn{
+  font-size:0.6833em !important;
+  font-weight:500;
+  padding:5px 10px;
+}
+
+#evangelie-page .ev-tag,
+#evangelie-page .ev-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid var(--ev-border);
+  background:var(--ev-beige-soft);
+  color:var(--ev-text);
+  border-radius:999px;
+  padding:6px 12px;
+  margin:0;
+  font-family:inherit;
+  font-size:.92em;
+  font-weight:400;
+  line-height:1.2;
+  min-height:0;
+  box-shadow:none;
+  cursor:pointer;
+  text-decoration:none;
+  transition:background .15s,border-color .15s,box-shadow .15s;
+}
+
+#evangelie-page .ev-section-head .ev-btn[data-action="section-toggle"]:hover{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+  border-color:#b8a07d;
+}
+
+#evangelie-page .ev-tag:hover,
+#evangelie-page .ev-btn:hover{
+  background:#f5ecd9;
+  border-color:#c7b69d;
+}
+
+#evangelie-page .ev-tag.is-active{
+  background:var(--ev-beige);
+  border-color:#cdb993;
+}
+
+/* MAIN SECTIONS */
+#evangelie-page .ev-section{
+  scroll-margin-top:191px;
+  margin:0 0 14px;
+  border:1px solid var(--ev-border);
+  border-radius:9px;
+  overflow:hidden;
+  background:#fff;
+}
+
+#evangelie-page .ev-section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:var(--ev-beige);
+  padding:6px 10px;
+  border-left:3px solid #ddc49b;
+  cursor:pointer;
+  user-select:none;
+}
+
+#evangelie-page .ev-section-title{
+  margin:0;
+  font-size:1em;
+  line-height:1.25;
+  color:#50493f;
+  cursor:pointer;
+  user-select:none;
+  flex:1;
+}
+
+#evangelie-page .ev-section-head:hover{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+}
+
+#evangelie-page .ev-section-toggle{
+  white-space:nowrap;
+  cursor:pointer;
+  font-size:0.6833em !important;
+  padding:5px 10px;
+}
+
+#evangelie-page .ev-section-body{
+  padding:7px 9px 10px;
+  background:#fff;
+}
+
+/* SUBSECTIONS */
+#evangelie-page .ev-sub{
+  border:1px solid #e7dfd4;
+  border-radius:7px;
+  margin:7px 0;
+  background:#fff;
+  overflow:hidden;
+}
+
+#evangelie-page .ev-sub-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:0;
+  height:auto;
+  padding:5px 9px;
+  margin:0;
+  background:#f3ebdf;
+  cursor:pointer;
+  user-select:none;
+}
+
+#evangelie-page .ev-sub-head:hover{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+}
+
+#evangelie-page .ev-sub-title{
+  margin:0;
+  font-size:.93em;
+  line-height:1.2;
+  font-weight:600;
+  color:#5a5146;
+  flex:1;
+}
+
+#evangelie-page .ev-sub-arrow{
+  flex:0 0 17px;
+  width:17px;
+  height:17px;
+  min-width:17px;
+  min-height:17px;
+  margin:0;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#897965;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  font-weight:400;
+  line-height:17px;
+}
+
+#evangelie-page .ev-sub-body{
+  padding:10px 12px 12px;
+  background:#fff;
+}
+
+#evangelie-page .ev-item,
+#evangelie-page .ev-note{
+  margin:0 0 9px;
+}
+
+#evangelie-page .ev-item:last-child,
+#evangelie-page .ev-note:last-child{
+  margin-bottom:0;
+}
+
+#evangelie-page .ev-item{
+  font-size:.96em;
+  line-height:1.58;
+  padding-left:0;
+}
+
+#evangelie-page .ev-note{
+  font-size:.93em;
+  color:#5f584f;
+}
+
+/* SUB-SUBSECTIONS */
+#evangelie-page .ev-subsub{
+  display:block;
+  margin:7px 0;
+  padding:0;
+  border:1px solid #e7dfd4;
+  border-radius:7px;
+  background:#fff;
+  overflow:hidden;
+}
+
+#evangelie-page .ev-subsub-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  min-height:0;
+  height:auto;
+  padding:5px 9px;
+  margin:0;
+  border:0;
+  border-radius:7px 7px 0 0;
+  background:#f9f4ed;
+  color:#5a5146;
+  font-weight:600;
+  font-size:.93em;
+  line-height:1.2;
+  cursor:pointer;
+  user-select:none;
+}
+
+#evangelie-page .ev-subsub-head.is-open,
+#evangelie-page .ev-sub-head.is-open{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+}
+
+#evangelie-page .ev-subsub-head:hover,
+#evangelie-page .ev-sub-head:hover{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+}
+
+#evangelie-page .ev-subsub-title{
+  margin:0;
+  font-size:.93em;
+  line-height:1.2;
+  font-weight:600;
+  color:#5a5146;
+  flex:1;
+}
+
+#evangelie-page .ev-subsub-arrow{
+  flex:0 0 17px;
+  width:17px;
+  height:17px;
+  min-width:17px;
+  min-height:17px;
+  margin:0;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#897965;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  font-weight:400;
+  line-height:17px;
+}
+
+#evangelie-page .ev-subsub-body{
+  padding:10px 12px 12px;
+  background:#fff;
+  border-radius:0 0 7px 7px;
+}
+
+#evangelie-page .ev-subsub-body[hidden]{display:none;}
+#evangelie-page .ev-subsub + .ev-subsub{margin-top:7px;}
+
+#evangelie-page .ev-subsub:not(:has(.ev-subsub-body:not([hidden]))) .ev-subsub-head{
+  border-radius:7px;
+}
+
+/* SEARCH HIGHLIGHTS */
+#evangelie-page mark.ev-hit,
+#evangelie-page mark.ev-search-mark{
+  background:var(--ev-mark);
+  color:inherit;
+  padding:0 .06em;
+  border-radius:2px;
+}
+
+#evangelie-page mark.ev-hit-active,
+#evangelie-page mark.ev-search-mark.is-current{
+  background:var(--ev-mark-current);
+  color:inherit;
+}
+
+#evangelie-page .ev-item + .ev-item{
+  margin-top:10px;
+}
+
+#evangelie-page [hidden]{
+  display:none;
+}
+
+#evangelie-page .ev-item em,
+#evangelie-page .ev-item i,
+#evangelie-page .ev-item cite,
+#evangelie-page .ev-item span,
+#evangelie-page .ev-item *,
+#evangelie-page .ev-item strong,
+#evangelie-page .ev-item strong span {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  -webkit-text-size-adjust: 100% !important;
+}
+
+#evangelie-page .ev-item em,
+#evangelie-page .ev-item i {
+  font-style: italic !important;
+}
+
+/* МАСШТАБИРОВАНИЕ */
+#evangelie-page.ev-font-minus-5 .ev-item,
+#evangelie-page.ev-font-minus-5 .ev-note,
+#evangelie-page.ev-font-minus-5 .ev-subsub-body .ev-item{font-size:.74em;line-height:1.62;margin-bottom:7px;}
+#evangelie-page.ev-font-minus-4 .ev-item,
+#evangelie-page.ev-font-minus-4 .ev-note,
+#evangelie-page.ev-font-minus-4 .ev-subsub-body .ev-item{font-size:.78em;line-height:1.61;margin-bottom:8px;}
+#evangelie-page.ev-font-minus-3 .ev-item,
+#evangelie-page.ev-font-minus-3 .ev-note,
+#evangelie-page.ev-font-minus-3 .ev-subsub-body .ev-item{font-size:.82em;line-height:1.60;margin-bottom:8px;}
+#evangelie-page.ev-font-minus-2 .ev-item,
+#evangelie-page.ev-font-minus-2 .ev-note,
+#evangelie-page.ev-font-minus-2 .ev-subsub-body .ev-item{font-size:.86em;line-height:1.59;margin-bottom:9px;}
+#evangelie-page.ev-font-minus-1 .ev-item,
+#evangelie-page.ev-font-minus-1 .ev-note,
+#evangelie-page.ev-font-minus-1 .ev-subsub-body .ev-item{font-size:.92em;line-height:1.58;margin-bottom:9px;}
+#evangelie-page.ev-font-plus-1 .ev-item,
+#evangelie-page.ev-font-plus-1 .ev-note,
+#evangelie-page.ev-font-plus-1 .ev-subsub-body .ev-item{font-size:1.05em;line-height:1.55;margin-bottom:12px;}
+#evangelie-page.ev-font-plus-2 .ev-item,
+#evangelie-page.ev-font-plus-2 .ev-note,
+#evangelie-page.ev-font-plus-2 .ev-subsub-body .ev-item{font-size:1.10em;line-height:1.52;margin-bottom:14px;}
+#evangelie-page.ev-font-plus-3 .ev-item,
+#evangelie-page.ev-font-plus-3 .ev-note,
+#evangelie-page.ev-font-plus-3 .ev-subsub-body .ev-item{font-size:1.15em;line-height:1.50;margin-bottom:16px;}
+#evangelie-page.ev-font-plus-4 .ev-item,
+#evangelie-page.ev-font-plus-4 .ev-note,
+#evangelie-page.ev-font-plus-4 .ev-subsub-body .ev-item{font-size:1.20em;line-height:1.48;margin-bottom:18px;}
+#evangelie-page.ev-font-plus-5 .ev-item,
+#evangelie-page.ev-font-plus-5 .ev-note,
+#evangelie-page.ev-font-plus-5 .ev-subsub-body .ev-item{font-size:1.25em;line-height:1.45;margin-bottom:20px;}
+
+/* НИЖНИЕ КНОПКИ */
+#evangelie-page .ev-sub-body > .ev-actions,
+#evangelie-page .ev-subsub-body > .ev-actions{
+  justify-content:flex-start !important;
+  gap:4px !important;
+  margin-top:7px !important;
+  padding-top:6px !important;
+  border-top:0 !important;
+}
+
+#evangelie-page .ev-sub-body > .ev-actions .ev-btn,
+#evangelie-page .ev-subsub-body > .ev-actions .ev-btn{
+  font-size:0.6667em !important;
+  padding:4px 8px !important;
+}
+
+/* ВВОДНЫЙ БЛОК */
+.ev-intro-block{
+  margin-bottom:35px;
+  max-width:100%;
+  font-family:inherit;
+}
+
+.ev-intro-title{
+  text-align:center !important;
+  font-weight:bold;
+  font-size:22px;
+  color:#333333;
+  margin-bottom:20px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+.ev-intro-text-wrap{
+  max-width:560px;
+  margin-left:auto;
+  margin-right:0;
+  text-align:right;
+}
+
+.ev-intro-text{
+  text-align:right;
+  font-style:italic;
+  font-size:16px;
+  line-height:1.6;
+  color:#333333;
+  margin-bottom:12px;
+}
+
+.ev-intro-note{
+  background:#f5efe5;
+  border-left:4px solid #cdbd9f;
+  border-radius:6px;
+  padding:10px 14px;
+  color:#837665;
+  font-family:'Kindenosca','Caveat','Brush Script MT',cursive;
+  font-weight:400;
+  font-size:28px;
+  line-height:1.35;
+  text-align:center;
+  margin:0 0 14px;
+}
+
+.ev-intro-note .ev-intro-note-text{font-size:28px;line-height:1.35;text-align:center;}
+
+.ev-intro-note .ev-intro-bottom-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;width:100%;margin:14px 0 0;padding:0;
+}
+
+.ev-intro-note .ev-intro-divider{
+  display:block;flex:1 1 auto;width:auto;height:14px;margin:0;padding:0;
+  background-image:url('https://uralzvon.site/wp-content/uploads/2026/09/krestik_2-dlya-sajta-2.svg');
+  background-repeat:no-repeat;background-position:center center;background-size:100% 100%;
+}
+
+.ev-intro-note .ev-intro-note-author{
+  flex:0 0 auto;font-size:20px;line-height:1.3;text-align:right;margin:0;white-space:nowrap;
+}
+
+/* ПЛАШКА РАЗМЕР ТЕКСТА */
+#evangelie-page .ev-text-size{
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  width:100% !important;
+  margin:8px 0 10px !important;
+  padding:0 10px !important;
+  box-sizing:border-box !important;
+  gap:4px !important;
+}
+
+#evangelie-page .ev-text-size-label{
+  font-size:12px !important;
+  color:#766f65 !important;
+  white-space:nowrap !important;
+  margin-right:4px !important;
+  line-height:1 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  height:28px !important;
+  padding:0 !important;
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  vertical-align:middle !important;
+}
+
+#evangelie-page .ev-text-size .ev-btn{
+  width:28px !important;min-width:28px !important;max-width:28px !important;
+  height:28px !important;min-height:28px !important;max-height:28px !important;
+  padding:0 !important;font-size:12px !important;flex:0 0 auto !important;
+}
+
+#evangelie-page .ev-search .ev-search-input{
+  flex: 1 1 auto !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+.ev-intro-text-3line br:nth-of-type(2){display: none;}
+.ev-intro-mobile{display:none !important;}
+
+@media(max-width:650px){
+  .ev-intro-title{
+    white-space:normal !important;font-size:18px;line-height:1.25;
+    padding:0 12px;margin-bottom:14px;
+  }
+  .ev-intro-note{font-size:20px;line-height:1.25;padding:4px 14px;}
+  .ev-intro-note .ev-intro-note-text{font-size:20px;line-height:1.25;}
+  .ev-intro-note .ev-intro-divider{
+    height:22px;
+    background-image:url('https://uralzvon.site/wp-content/uploads/2026/09/krestik_3-dlya-sajta_mobile.svg');
+    background-repeat:no-repeat;background-position:center center;background-size:100% 22px;
+  }
+  .ev-intro-note .ev-intro-note-author{font-size:15px;line-height:1.25;}
+  .ev-intro-text{font-size:14px;line-height:1.4;max-width:100%;margin:0;padding:0 4px;text-align:right;}
+  .ev-intro-text-wrap{max-width:100%;text-align:right;padding:0 8px;margin:0;}
+  .ev-intro-desktop{display:none !important;}
+  .ev-intro-mobile{display:block !important;}
+
+  #evangelie-page .ev-search{padding:7px 6px;gap:4px;flex-wrap:nowrap;}
+  #evangelie-page .ev-search .ev-search-input{
+    flex:1 1 auto;width:auto;max-width:none;min-width:0;
+    font-size:.82em;padding:5px 8px;height:30px;
+  }
+  #evangelie-page .ev-search .ev-search-nav{gap:4px !important;display:flex !important;align-items:center !important;justify-content:center !important;}
+  #evangelie-page .ev-search .ev-search-nav .ev-btn,
+  #evangelie-page .ev-search .ev-btn.ev-search-arrow{
+    width:28px !important;min-width:28px !important;max-width:28px !important;
+    height:28px !important;min-height:28px !important;max-height:28px !important;
+    padding:0 !important;display:inline-flex !important;align-items:center !important;
+    justify-content:center !important;font-size:13px !important;line-height:1 !important;
+  }
+  #evangelie-page .ev-search .ev-search-current{
+    min-width:34px !important;width:34px !important;height:28px !important;
+    line-height:28px !important;font-size:.72em !important;display:inline-flex !important;
+    align-items:center !important;justify-content:center !important;text-align:center !important;
+    padding:0 !important;vertical-align:middle !important;
+  }
+  #evangelie-page .ev-search .ev-clear-search{
+    width:28px !important;min-width:28px !important;max-width:28px !important;
+    height:28px !important;min-height:28px !important;max-height:28px !important;
+    padding:0 !important;margin:0 0 0 3px !important;
+    display:inline-flex !important;align-items:center !important;justify-content:center !important;
+    line-height:1 !important;font-size:14px !important;transform:none !important;
+  }
+  #evangelie-page .ev-search .ev-clear-search .ev-clear-glyph{
+    display:inline-flex !important;align-items:center !important;justify-content:center !important;
+    line-height:1 !important;height:100% !important;width:100% !important;
+    padding:0 !important;margin:0 !important;transform:none !important;
+  }
+  #evangelie-page .ev-search .ev-search-status{
+    font-size:.72em;margin-left:auto;margin-right:0;line-height:1.15;
+    max-width:90px;white-space:normal;overflow:visible;text-overflow:clip;
+    flex:0 0 auto;text-align:right;align-self:center;
+  }
+  #evangelie-page .ev-search{top:65px !important;}
+  #evangelie-page.ev-search-active .ev-search{top:65px !important;}
+
+  #evangelie-page .ev-item{font-size:16px;line-height:1.6;}
+  #evangelie-page .ev-actions{margin-top:19px;}
+  #evangelie-page .ev-text-size{margin:12px 0 15px;}
+}
+
+#evangelie-page .ev-sub-head.ev-sub-static{cursor: default;}
+#evangelie-page .ev-sub-head.ev-sub-static:hover{background-image: none !important;}
+#evangelie-page .ev-sub-head.ev-sub-static .ev-sub-arrow{pointer-events: none;}
+
+#evangelie-page .ev-sub-head.ev-sub-static .ev-sub-arrow{
+  font-size: 0 !important;color: transparent !important;
+}
+
+#evangelie-page .ev-sub-head.ev-sub-static .ev-sub-arrow::before{
+  content: '−';
+  display: inline-block;font-size: 18px;line-height: 1;
+  color: #897965;font-family: inherit;font-weight: 400;
+}
+
+#evangelie-page .ev-sub-head:focus:not(:focus-visible),
+#evangelie-page .ev-subsub-head:focus:not(:focus-visible),
+#evangelie-page .ev-section-head:focus:not(:focus-visible){
+  outline:none !important;
+}
+
+#evangelie-page .ev-sub-head,
+#evangelie-page .ev-subsub-head{align-items:center !important;}
+
+#evangelie-page .ev-sub-arrow,
+#evangelie-page .ev-subsub-arrow{
+  display:block !important;line-height:32px !important;height:32px !important;
+  padding:0 !important;margin:0 !important;vertical-align:middle !important;
+  text-align:center;width:17px;
+}
+
+#evangelie-page .ev-sub-head.ev-sub-static .ev-sub-arrow::before{
+  display:inline-flex;align-items:center;justify-content:center;
+  line-height:1;height:32px;width:17px;vertical-align:middle;margin:0;padding:0;
+}
+
+#evangelie-page .ev-section-head.is-open,
+#evangelie-page .ev-sub-head.is-open,
+#evangelie-page .ev-subsub-head.is-open{
+  background-image:linear-gradient(rgba(138,107,63,.06),rgba(138,107,63,.06));
+}
+
+#evangelie-page button:focus:not(:focus-visible),
+#evangelie-page .ev-btn:focus:not(:focus-visible),
+#evangelie-page .ev-text-size .ev-btn:focus:not(:focus-visible){
+  outline:none !important;box-shadow:none !important;
+}
+
+#evangelie-page .ev-btn:focus-visible,
+#evangelie-page .ev-text-size .ev-btn:focus-visible,
+#evangelie-page .ev-search-nav .ev-btn:focus-visible,
+#evangelie-page .ev-clear-search:focus-visible,
+#evangelie-page .ev-actions .ev-btn:focus-visible,
+#evangelie-page button:focus-visible,
+#evangelie-page .ev-section-head:focus-visible,
+#evangelie-page .ev-sub-head:focus-visible,
+#evangelie-page .ev-subsub-head:focus-visible{
+  outline:2px solid rgba(183,156,119,.55) !important;
+  outline-offset:0 !important;border-radius:7px;box-shadow:none !important;
+}
+
+#evangelie-page .ev-search .ev-search-nav{margin-left: auto !important;}
+
+#evangelie-page .ev-search .ev-arrow-glyph{
+  display: inline-flex !important;align-items: center !important;
+  justify-content: center !important;line-height: 1 !important;
+  height: 100% !important;width: 100% !important;
+  vertical-align: middle !important;padding: 0 !important;margin: 0 !important;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   НОВЫЕ БЛОКИ: «С ЧЕГО НАЧАТЬ» и «УКАЗАТЕЛЬ ПО СТРАСТЯМ»
+   Стилизованы на существующих переменных, без новых цветов
+   ============================================================ */
+
+#evangelie-page .ev-start,
+#evangelie-page .ev-index{
+  margin:0 0 22px;
+  padding:0;
+}
+
+#evangelie-page .ev-start-title,
+#evangelie-page .ev-index-title{
+  margin:0 0 12px;
+  font-size:1.05em;
+  font-weight:600;
+  color:#50493f;
+  letter-spacing:.02em;
+}
+
+#evangelie-page .ev-start-lead,
+#evangelie-page .ev-index-lead{
+  margin:0 0 16px;
+  color:var(--ev-muted);
+  font-size:.96em;
+  line-height:1.58;
+}
+
+#evangelie-page .ev-start-path{
+  list-style:none;
+  counter-reset:ev-step;
+  margin:0;
+  padding:0;
+}
+
+#evangelie-page .ev-start-step{
+  counter-increment:ev-step;
+  position:relative;
+  padding:14px 0 14px 46px;
+  border-bottom:1px solid #e7dfd4;
+}
+
+#evangelie-page .ev-start-step:last-child{border-bottom:none;padding-bottom:0;}
+#evangelie-page .ev-start-step:first-child{padding-top:0;}
+
+#evangelie-page .ev-start-step::before{
+  content:counter(ev-step);
+  position:absolute;left:0;top:14px;
+  width:30px;height:30px;
+  border:1px solid var(--ev-border);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:inherit;font-size:.9em;color:#50493f;
+  background:var(--ev-beige-soft);
+}
+
+#evangelie-page .ev-start-step:first-child::before{top:0;}
+
+#evangelie-page .ev-start-step h3{
+  margin:0 0 6px;font-size:.98em;font-weight:600;
+  color:#50493f;line-height:1.3;
+}
+
+#evangelie-page .ev-start-step p{
+  margin:0 0 8px;color:var(--ev-muted);font-size:.94em;line-height:1.58;
+}
+
+#evangelie-page .ev-start-step p:last-child{margin-bottom:0;}
+
+#evangelie-page .ev-start-quote{
+  margin:10px 0 0;padding:10px 14px;
+  background:var(--ev-beige-soft);
+  border-left:3px solid var(--ev-border);
+  color:#50493f;font-size:.93em;font-style:italic;line-height:1.55;
+}
+
+#evangelie-page .ev-start-cite{
+  display:block;margin-top:4px;font-size:.88em;
+  font-style:normal;color:var(--ev-muted);
+}
+
+#evangelie-page .ev-index-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:0;
+  border:1px solid var(--ev-border);
+  border-radius:7px;
+  overflow:hidden;
+  background:#fff;
+}
+
+#evangelie-page .ev-index-list li{display:contents;}
+
+#evangelie-page .ev-index-item{
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+  background:#fff;
+  border:none;
+  border-right:1px solid #e7dfd4;
+  border-bottom:1px solid #e7dfd4;
+  border-radius:0;
+  padding:12px 14px;
+  margin:0;
+  cursor:pointer;
+  text-align:left;
+  font-family:inherit;
+  font-size:.94em;
+  color:var(--ev-text);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  transition:background .15s ease;
+  min-height:0;
+  box-shadow:none;
+}
+
+#evangelie-page .ev-index-item:hover,
+#evangelie-page .ev-index-item:focus-visible{
+  background:var(--ev-beige-soft);
+  outline:none;
+}
+
+#evangelie-page .ev-index-name{color:#50493f;font-weight:500;}
+#evangelie-page .ev-index-ref{font-size:.85em;color:var(--ev-muted);font-style:italic;flex-shrink:0;}
+
+#evangelie-page .ev-flash{animation:ev-flash-anim 1.8s ease;}
+@keyframes ev-flash-anim{
+  0%   { background:#f5ecd9; }
+  100% { background:#fff; }
+}
+
+@media(max-width:650px){
+  #evangelie-page .ev-start-step{padding:12px 0 12px 40px;}
+  #evangelie-page .ev-start-step::before{width:26px;height:26px;font-size:.82em;}
+  #evangelie-page .ev-index-list{grid-template-columns:1fr;}
+  #evangelie-page .ev-index-item{border-right:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ВВОДНЫЙ БЛОК -->
+<div class="ev-intro-block">
+<h2 class="ev-intro-title">Христианские добродетели согласно евангельским заповедям</h2>
+<div class="ev-intro-note">
+  <div class="ev-intro-note-text">Человеки будут судимы на Суде Божием по евангельским заповедям.</div>
+  <div class="ev-intro-bottom-row">
+    <div class="ev-intro-divider" aria-hidden="true"></div>
+    <div class="ev-intro-note-author">св. Игнатий (Брянчанинов).</div>
+  </div>
+</div>
+<div class="ev-intro-text-wrap">
+<p class="ev-intro-text" style="font-style: italic;">Если же хочешь войти в жизнь (вечную),<br />соблюди заповеди. (Мф. 19, 17)</p>
+<p class="ev-intro-text" style="font-style: italic;">Кто соблюдает весь закон и согрешит в одном чем-нибудь,<br />тот становится виновным во всем. (Иак. 2, 10)</p>
+</div>
+</div>
+
+<!-- ================== ОСНОВНОЙ КОНТЕЙНЕР ================== -->
+<div id="evangelie-page" class="ev-page">
+
+  <!-- tools -->
+  <div class="ev-tools">
+    <div class="ev-text-size" aria-label="Размер текста">
+      <span class="ev-text-size-label">Размер текста</span>
+      <button class="ev-btn" type="button" data-action="font-minus">А−</button>
+      <button class="ev-btn" type="button" data-action="font-reset">А</button>
+      <button class="ev-btn" type="button" data-action="font-plus">А+</button>
+    </div>
+
+    <div class="ev-search" role="search">
+      <input class="ev-search-input" type="search" placeholder="Поиск по заповедям..." aria-label="Поиск по заповедям" />
+      <div class="ev-search-nav" aria-label="Переход по найденным словам">
+        <button class="ev-btn ev-search-arrow" title="Предыдущее совпадение" disabled="disabled" type="button" aria-label="Предыдущее совпадение" data-action="prev-hit">←</button>
+        <button class="ev-btn ev-search-arrow" title="Следующее совпадение" disabled="disabled" type="button" aria-label="Следующее совпадение" data-action="next-hit">→</button>
+      </div>
+      <button class="ev-btn ev-clear-search" title="Очистить поле" type="button" aria-label="Очистить поле" data-action="clear-search">×</button>
+    </div>
+
+    <div class="ev-actions">
+      <button class="ev-btn" type="button" data-action="open-all-sections">Развернуть все разделы</button>
+      <button class="ev-btn" type="button" data-action="open-all">Развернуть все заповеди</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       НОВЫЙ БЛОК 1. С ЧЕГО НАЧАТЬ
+       ============================================================ -->
+  <div class="ev-start">
+    <h2 class="ev-start-title">С чего начать</h2>
+    <p class="ev-start-lead">
+      Заповеди Евангелия — не отдельные предписания, но единый закон духа,
+      изложенный Господом в Нагорной проповеди. Порядок изучения, предлагаемый
+      ниже, соответствует тому порядку, в каком заповеди раскрываются
+      в Священном Писании и в святоотеческом предании.
+    </p>
+
+    <ol class="ev-start-path">
+      <li class="ev-start-step">
+        <h3>Нагорная проповедь как основание</h3>
+        <p>Все евангельские заповеди сосредоточены в Нагорной проповеди (Мф. 5–7). Прежде чем переходить к отдельным заповедям, надлежит прочесть её целиком — как единое слово Господа.</p>
+      </li>
+      <li class="ev-start-step">
+        <h3>Заповеди Блаженства</h3>
+        <p>Девять заповедей Блаженства (Мф. 5:3–12) — основание евангельского нравоучения. Святые отцы называют их «лествицей» восхождения. Без их усвоения прочие заповеди остаются непонятыми.</p>
+        <div class="ev-start-quote">
+          «Блаженны нищие духом, ибо их есть Царство Небесное»
+          <span class="ev-start-cite">Мф. 5:3</span>
+        </div>
+      </li>
+      <li class="ev-start-step">
+        <h3>Постепенность в исполнении</h3>
+        <p>По учению святителя Игнатия (Брянчанинова), не следует браться за исполнение всех заповедей сразу. Надлежит взять одну заповедь, внимательно её изучить, содержать в уме и деятельно исполнять — доколе она не станет навыком.</p>
+        <div class="ev-start-quote">
+          «Кто соблюдает весь закон и согрешит в одном чём-нибудь, тот становится виновным во всём»
+          <span class="ev-start-cite">Иак. 2:10</span>
+        </div>
+      </li>
+      <li class="ev-start-step">
+        <h3>Обращение к указателю по страстям</h3>
+        <p>Если вы уже знакомы с учением Церкви и ищете заповеди, соответствующие вашей внутренней брани, — воспользуйтесь указателем ниже.</p>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============================================================
+       НОВЫЙ БЛОК 2. УКАЗАТЕЛЬ ПО СТРАСТЯМ
+       ============================================================ -->
+  <div class="ev-index">
+    <h2 class="ev-index-title">Указатель по страстям</h2>
+    <p class="ev-index-lead">
+      Указатель составлен по святоотеческому учению о восьми главных страстях.
+      Выберите страсть, с которой вы ведёте брань, — и перейдите к заповедям,
+      ей противоположным.
+    </p>
+
+    <ul class="ev-index-list">
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-1"><span class="ev-index-name">Чревоугодие</span><span class="ev-index-ref">Воздержание</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-2"><span class="ev-index-name">Блуд</span><span class="ev-index-ref">Целомудрие</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-3"><span class="ev-index-name">Сребролюбие</span><span class="ev-index-ref">Нестяжание</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-4"><span class="ev-index-name">Гнев</span><span class="ev-index-ref">Кротость</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-5"><span class="ev-index-name">Печаль</span><span class="ev-index-ref">Плач и упование</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-6"><span class="ev-index-name">Уныние</span><span class="ev-index-ref">Трезвение</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-7"><span class="ev-index-name">Тщеславие</span><span class="ev-index-ref">Смирение</span></button></li>
+      <li><button class="ev-tag ev-index-item" type="button" data-target="ev-section-8"><span class="ev-index-name">Гордость</span><span class="ev-index-ref">Любовь</span></button></li>
+    </ul>
+  </div>
+
+
+  <!-- ============================================================
+       АККОРДЕОН. РАЗДЕЛЫ 1–4 (сокращено для прототипа)
+       ============================================================ -->
+
+  <!-- 1. ВОЗДЕРЖАНИЕ -->
+  <section id="ev-section-1" class="ev-section" data-section="">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>1. Воздержание</strong></h2>
+      <button class="ev-btn ev-section-toggle" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body">
+      <div id="ev-sub-1-1" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>1.1. Пост</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>1.1.1.</strong> Придут дни, когда отнимется у них жених, и тогда будут поститься в те дни (Лк. 5, 35). (<em>Пока апостолы были с Господом, то пост им не назначался, но после Вознесения Христова пост предписан, в лице учеников, — всей Церкви Христовой.)</em></p>
+          <p class="ev-item" data-search=""><strong>1.1.2.</strong> При сем сказал им притчу: никто не приставляет заплаты к ветхой одежде, отодрав от новой одежды; а иначе и новую раздерет, и к старой не подойдет заплата от новой. И никто не вливает молодого вина в мехи ветхие; а иначе молодое вино прорвет мехи, и само вытечет, и мехи пропадут; но молодое вино должно вливать в мехи новые; тогда сбережется и то и другое. И никто, пив старое [вино], не захочет тотчас молодого, ибо говорит: старое лучше. И сказал им: Сын Человеческий есть господин и субботы <em>(под субботой здесь имеется в виду установление о посте) </em>(Лк. 5, 36–39; 6, 5; <em>см.</em> Мф. 9, 15–17; Мк. 2, 20–22, 27–28). <em>(По учению свт. Игнатия (Брянчанинова) пост должен быть умеренным, равномерным и долговременным; «умеренность» означает, что пост устанавливается индивидуально, учитывая возраст, состояние здоровья, социальное положение, духовный опыт христианина.)</em></p>
+        </div>
+      </div>
+
+      <div id="ev-sub-1-2" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>1.2. Правильное отношение к пище</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>1.2.1.</strong> … Не то, что входит в уста, оскверняет человека, но то, что выходит из уст, оскверняет человека (Мф. 15, 10–11)<em>. (Скоромная пища сама по себе не может осквернить человека, а слово греховное — оскверняет.)</em></p>
+          <p class="ev-item" data-search=""><strong>1.2.2.</strong> И каждый день единодушно пребывали в храме и… принимали пищу в веселии<em> (веселие духа не равнозначно веселому застолью) </em>и простоте сердца<em>… </em>(Деян. 2, 46).</p>
+          <p class="ev-item" data-search=""><strong>1.2.3.</strong> Итак, едите ли, пьете ли, или иное что делаете, все делайте в славу Божию (1 Кор. 10, 31). <em>(С памятью о Боге и с покаянием.)</em></p>
+          <p class="ev-item" data-search=""><strong>1.2.4.</strong> Ибо иной уверен, что можно есть все, а немощный ест овощи (Рим. 14, 1–2). <em>(Для совершенных пост уже не является необходимостью, а для страстных — необходим как оружие, наряду с покаянной молитвой.)</em></p>
+        </div>
+      </div>
+
+      <div id="ev-sub-1-3" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>1.3. Правильное отношение к плоти</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>1.3.1.</strong> К свободе призваны вы, братия, только бы свобода ваша не была поводом к угождению плоти… (Гал. 5, 13)<em>. (При достижении духовного совершенства человек обретает свободу, но пока действуют страсти — необходимы разумные ограничения, в частности, нужен пост.)</em></p>
+          <p class="ev-item" data-search=""><strong>1.3.2.</strong>… Поступайте по духу, и вы не будете исполнять вожделений плоти, ибо плоть желает противного духу, а дух — противного плоти: они друг другу противятся, так что вы не то делаете, что хотели бы (Гал. 5, 16–17)<em>. (Пост ограничивает плоть и усиливается влечение к духовному.)</em></p>
+        </div>
+      </div>
+
+      <div id="ev-sub-1-4" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>1.4. Предостережения</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>1.4.1.</strong> Блаженны алчущие ныне, ибо насытитесь (Лк. 6, 21). <em>(Голод и нищета телесные, при правильной вере, удобно могут сделать наследниками Царства Небесного.)</em></p>
+          <p class="ev-item" data-search=""><strong>1.4.2.</strong> Горе вам, пресыщенные ныне! ибо взалчете (Лк. 6, 25). <em>(Развивая страсть чревоугодия, человек обрекает себя на вечный голод ада.)</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ЦЕЛОМУДРИЕ -->
+  <section id="ev-section-2" class="ev-section" data-section="">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>2. Целомудрие</strong></h2>
+      <button class="ev-btn ev-section-toggle" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body">
+      <div id="ev-sub-2-1" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>2.1. Для семейных</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>2.1.1.</strong> И сказал: посему оставит человек отца и мать и прилепится к жене своей, и будут два одною плотью, так что они уже не двое, но одна плоть. Итак, что Бог сочетал, того человек да не разлучает… (Мф. 19, 5–6, 9)</p>
+          <p class="ev-item" data-search=""><strong>2.1.2.</strong> …Кто разводится с женою своею, кроме вины прелюбодеяния, тот подает ей повод прелюбодействовать… (Мф. 5, 32)</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-2-2" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>2.2. Для одиноких</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>2.2.1.</strong> Безбрачным же и вдовам говорю: хорошо им оставаться, как я <em>(безбрачным) </em>(1 Кор. 7, 8).</p>
+          <p class="ev-item" data-search=""><strong>2.2.4.</strong> Юношеских похотей убегай, а держись правды, веры, любви, мира со всеми призывающими Господа от чистого сердца (2 Тим. 2, 22).</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-2-3" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>2.3. Против блуда</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>2.3.1.</strong> Вы слышали, что сказано древним: не прелюбодействуй. А Я говорю вам, что всякий, кто смотрит на женщину с вожделением, уже прелюбодействовал с нею в сердце своем (Мф. 5, 27–28).</p>
+          <p class="ev-item" data-search=""><strong>2.3.6.</strong> Бегайте блуда; всякий грех, какой делает человек, есть вне тела, а блудник грешит против собственного тела (1 Кор. 6, 18)<em>.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. НЕСТЯЖАНИЕ -->
+  <section id="ev-section-3" class="ev-section" data-section="">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>3. Нестяжание</strong></h2>
+      <button class="ev-btn ev-section-toggle" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body">
+      <div id="ev-sub-3-1" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>3.1. Опасность богатства</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>3.1.1.</strong> Итак, если вы в неправедном богатстве не были верны, кто поверит<em> (доверит) </em>вам истинное<em> (Царство Небесное)</em>? … Не можете служить Богу и маммоне <em>(языческий бог богатства). </em>(Лк. 16, 11–13)</p>
+          <p class="ev-item" data-search=""><strong>3.1.2.</strong> Иисус, взглянув на него, полюбил его и сказал ему: одного тебе недостает: пойди, все, что имеешь, продай и раздай нищим… Удобнее верблюду пройти сквозь игольные уши, нежели богатому войти в Царствие Божие (Мк. 10, 21–27).</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-3-2" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>3.2. Правильное отношение к достатку</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>3.2.1.</strong> Иисус сказал ему: если хочешь быть <strong>совершенным</strong>, пойди, продай имение твое и раздай нищим; и будешь иметь сокровище на небесах; и приходи и следуй за Мною (Мф. 19, 21).</p>
+          <p class="ev-item" data-search=""><strong>3.2.7.</strong> Великое приобретение — быть благочестивым и довольным <em>(своей участью и своим земным положением) </em>(1 Тим. 6, 6).</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-3-3" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>3.3. Помощь ближним, пожертвования</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>3.3.1.</strong> Просящему у тебя дай, и от хотящего занять у тебя не отвращайся (Мф. 5, 42)<em>.</em></p>
+          <p class="ev-item" data-search=""><strong>3.3.3.</strong> Он сказал им в ответ: у кого две одежды, тот дай неимущему, и у кого есть пища, делай то же (Лк. 3, 11).</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-3-4" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>3.4. Предостережения</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>3.4.1.</strong> Не собирайте себе сокровищ на земле, где моль и ржа истребляют и где воры подкапывают и крадут, но собирайте себе сокровища на небе… (Мф. 6, 19–21).</p>
+          <p class="ev-item" data-search=""><strong>3.4.4.</strong> При этом сказал им: смотрите, берегитесь любостяжания, ибо жизнь <em>(спасение) </em>человека не зависит от изобилия его имения (Лк. 12, 15).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. КРОТОСТЬ -->
+  <section id="ev-section-4" class="ev-section" data-section="">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>4. Кротость</strong></h2>
+      <button class="ev-btn ev-section-toggle" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body">
+      <div id="ev-sub-4-1" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>4.1. Против гнева</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>4.1.1.</strong> Придите ко Мне все труждающиеся и обремененные, и Я успокою вас; возьмите иго Мое на себя и научитесь от Меня, ибо Я кроток и смирен сердцем, и найдете покой душам вашим (Мф. 11, 28–30).</p>
+          <p class="ev-item" data-search=""><strong>4.1.2.</strong> Вы слышали, что сказано древним: не убивай… А Я говорю вам, что всякий, гневающийся на брата своего напрасно, подлежит суду… (Мф. 5, 21–26)</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-4-2" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>4.2. Прощайте ближнего</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>4.2.1.</strong> Тогда Петр приступил к Нему и сказал: Господи! сколько раз прощать брату моему, согрешающему против меня? до семи ли раз? Иисус говорит ему: не говорю тебе: до семи раз, но до седмижды семидесяти раз (Мф. 18, 21–22).</p>
+          <p class="ev-item" data-search=""><strong>4.2.2.</strong> Если же согрешит против тебя брат твой, выговори ему; и если покается, прости ему… (Лк. 17, 3–4)</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-4-3" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>4.3. Не судите</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>4.3.2.</strong> Не судите, да не судимы будете, ибо каким судом судите, [таким] будете судимы; и какою мерою мерите, [такою] и вам будут мерить (Мф. 7, 1–2).</p>
+          <p class="ev-item" data-search=""><strong>4.3.3.</strong> Не судите, и не будете судимы; не осуждайте, и не будете осуждены; прощайте, и прощены будете… (Лк. 6, 37)</p>
+        </div>
+      </div>
+
+      <div id="ev-sub-4-6" class="ev-sub" data-sub="">
+        <div class="ev-sub-head" tabindex="0" role="button" aria-expanded="false">
+          <div class="ev-sub-title"><strong>4.6. Предостережения</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden="True">
+          <p class="ev-item" data-search=""><strong>4.6.1.</strong> Порождения ехиднины! как вы можете говорить доброе, будучи злы? Ибо от избытка сердца говорят уста… (Мф. 12, 34–35)</p>
+          <p class="ev-item" data-search=""><strong>4.6.5.</strong> …Ни злоречивые, ни хищники Царства Божия не наследуют (1 Кор. 6, 10)<em>.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Разделы 5–8 здесь не показаны для краткости,
+       но в рабочем файле вы вставляете их такими же,
+       как у вас — они работают без изменений -->
+
+</div>
+
+<script>
+/* ============================================================
+   ВАШ JS (как есть из файла js ИТОГ_с правками на мобильном)
+   Плюс один маленький обработчик для указателя по страстям.
+   ============================================================ */
+(function(){
+  function initEvangelie(){
+    const root=document.getElementById('evangelie-page');
+    if(!root||root.dataset.evInitialized==='1')return;
+    root.dataset.evInitialized='1';
+
+    const all=(selector,ctx=root)=>Array.from(ctx.querySelectorAll(selector));
+
+    /* 1. ВСТАВКА СЧЁТЧИКА И СТАТУСА */
+    (function ensureSearchSpans(){
+      const searchBox=root.querySelector('.ev-search');
+      if(!searchBox)return;
+      const nav=searchBox.querySelector('.ev-search-nav');
+      const next=searchBox.querySelector('[data-action="next-hit"]');
+      const clear=searchBox.querySelector('.ev-clear-search');
+
+      if(nav && !nav.querySelector('.ev-search-current')){
+        const cur=document.createElement('span');
+        cur.className='ev-search-current';
+        cur.setAttribute('aria-live','polite');
+        if(next){ next.parentNode.insertBefore(cur, next); }
+        else{ nav.appendChild(cur); }
+      }
+
+      const existingCur = nav ? nav.querySelector('.ev-search-current') : null;
+      if(existingCur && next && next.parentNode === nav){
+        if(existingCur.nextSibling !== next){ nav.insertBefore(existingCur, next); }
+      }
+
+      if(!searchBox.querySelector('.ev-search-status')){
+        const st=document.createElement('span');
+        st.className='ev-search-status';
+        st.setAttribute('aria-live','polite');
+        if(clear && clear.parentNode === searchBox){ searchBox.insertBefore(st, clear.nextSibling); }
+        else{ searchBox.appendChild(st); }
+      }
+
+      if(nav && clear && clear.parentNode === nav){ nav.parentNode.insertBefore(clear, nav.nextSibling); }
+    })();
+
+    /* 2. ПЕРЕМЕННЫЕ */
+    const input   = root.querySelector('.ev-search-input');
+    const status  = root.querySelector('.ev-search-status');
+    const counter = root.querySelector('.ev-search-current');
+    const search  = root.querySelector('.ev-search');
+    const sections=all('[data-section]');
+
+    let hits=[];
+    let active=-1;
+    let timer=null;
+    let fontLevel=0;
+
+    /* 3. МАСШТАБ */
+    function applyFontLevel(){
+      var levels=[
+        'ev-font-minus-5','ev-font-minus-4','ev-font-minus-3','ev-font-minus-2','ev-font-minus-1',
+        'ev-font-plus-1','ev-font-plus-2','ev-font-plus-3','ev-font-plus-4','ev-font-plus-5'
+      ];
+      for(var i=0;i<levels.length;i++) root.classList.remove(levels[i]);
+      if(fontLevel<0) root.classList.add('ev-font-minus-'+Math.abs(fontLevel));
+      if(fontLevel>0) root.classList.add('ev-font-plus-'+fontLevel);
+    }
+
+    /* 4. ОБЁРТКИ */
+    all('.ev-search-arrow').forEach(btn=>{
+      if(!btn.querySelector('.ev-arrow-glyph')){
+        const span=document.createElement('span');
+        span.className='ev-arrow-glyph';
+        span.textContent=btn.textContent.trim();
+        btn.textContent='';
+        btn.appendChild(span);
+      }
+    });
+    all('.ev-clear-search').forEach(btn=>{
+      if(!btn.querySelector('.ev-clear-glyph')){
+        const span=document.createElement('span');
+        span.className='ev-clear-glyph';
+        span.textContent='×';
+        btn.textContent='';
+        btn.appendChild(span);
+      }
+    });
+    if(input) input.placeholder='Поиск по заповедям...';
+    all('[data-action="next-sub"]').forEach(btn=>btn.textContent='↓ Следующий раздел');
+
+    /* 5. КНОПКИ ПОД ПОДРАЗДЕЛАМИ */
+    function addSubActionButtons(){
+      const makeActions=()=>{
+        const wrap=document.createElement('div');
+        wrap.className='ev-actions';
+        wrap.innerHTML='<button class="ev-btn" data-action="sub-close" type="button">Свернуть</button><button class="ev-btn" data-action="section-top" type="button">↑ К началу раздела</button><button class="ev-btn" data-action="next-sub" type="button">↓ Следующий раздел</button>';
+        return wrap;
+      };
+      all('.ev-sub-body').forEach(body=>{
+        if(!body.querySelector('[data-action="sub-close"]')) body.appendChild(makeActions());
+      });
+      all('.ev-subsub-body').forEach(body=>{
+        if(!body.querySelector('[data-action="sub-close"]')) body.appendChild(makeActions());
+      });
+    }
+    addSubActionButtons();
+
+    /* 6. ОТКРЫТИЕ/ЗАКРЫТИЕ */
+    function setSub(sub,open){
+      const body=sub&&sub.querySelector('.ev-sub-body');
+      const head=sub&&sub.querySelector('.ev-sub-head');
+      const arrow=sub&&sub.querySelector('.ev-sub-arrow');
+      if(!body)return;
+      body.hidden=!open;
+      if(head){head.setAttribute('aria-expanded',open?'true':'false');head.classList.toggle('is-open',open);}
+      if(arrow)arrow.textContent=open?'−':'＋';
+    }
+    function setSubsub(subsub,open){
+      const body=subsub&&subsub.querySelector('.ev-subsub-body');
+      const head=subsub&&subsub.querySelector('.ev-subsub-head');
+      const arrow=subsub&&subsub.querySelector('.ev-subsub-arrow');
+      if(!body)return;
+      body.hidden=!open;
+      if(head){head.setAttribute('aria-expanded',open?'true':'false');head.classList.toggle('is-open',open);}
+      if(arrow)arrow.textContent=open?'−':'＋';
+    }
+    function setSection(section,open){
+      const body=section&&section.querySelector('.ev-section-body');
+      const btn=section&&section.querySelector('[data-action="section-toggle"]');
+      const head=section&&section.querySelector('.ev-section-head');
+      if(!body)return;
+      body.hidden=!open;
+      if(btn)btn.textContent=open?'Свернуть раздел':'Развернуть раздел';
+      if(head)head.classList.toggle('is-open',open);
+    }
+    function sectionsAreOpen(){
+      return sections.length>0 && sections.every(s=>{
+        const b=s.querySelector('.ev-section-body');
+        return b && !b.hidden;
+      });
+    }
+    function commandmentsAreOpen(){
+      const items=all('[data-sub], .ev-subsub');
+      return items.length>0 && items.every(item=>{
+        const b=item.querySelector('.ev-sub-body, .ev-subsub-body');
+        return b && !b.hidden;
+      });
+    }
+    function updateGlobalButtons(){
+      const sBtn=root.querySelector('[data-action="open-all-sections"]');
+      const cBtn=root.querySelector('[data-action="open-all"]');
+      if(sBtn) sBtn.textContent=sectionsAreOpen()?'Свернуть все разделы':'Развернуть все разделы';
+      if(cBtn) cBtn.textContent=commandmentsAreOpen()?'Свернуть все заповеди':'Развернуть все заповеди';
+    }
+    function openAllSectionsOnly(){
+      sections.forEach(s=>setSection(s,true));
+      updateGlobalButtons();
+    }
+    function setAllCommandments(open){
+      sections.forEach(s=>{
+        if(open) setSection(s,true);
+        all('[data-sub]',s).forEach(sub=>setSub(sub,open));
+        all('.ev-subsub',s).forEach(ss=>setSubsub(ss,open));
+      });
+      updateGlobalButtons();
+    }
+
+    /* 7. ПОИСК */
+    function clearHighlights(){
+      all('mark.ev-hit, mark.ev-search-mark').forEach(mark=>{
+        const parent=mark.parentNode;
+        if(!parent)return;
+        parent.replaceChild(document.createTextNode(mark.textContent),mark);
+        parent.normalize();
+      });
+      hits=[];
+      active=-1;
+      updateNav();
+    }
+    function searchableNodes(){ return all('[data-search]'); }
+    function escapeRegExp(text){ return text.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+    function highlight(query){
+      if(!query)return;
+      const re=new RegExp(escapeRegExp(query),'gi');
+      searchableNodes().forEach(el=>{
+        const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{
+          acceptNode(node){
+            const parent=node.parentElement;
+            if(!node.nodeValue||!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if(parent&&parent.closest('mark.ev-hit, mark.ev-search-mark')) return NodeFilter.FILTER_REJECT;
+            if(parent&&['SCRIPT','STYLE'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        const nodes=[];
+        while(walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(node=>{
+          const text=node.nodeValue;
+          re.lastIndex=0;
+          if(!re.test(text))return;
+          re.lastIndex=0;
+          const frag=document.createDocumentFragment();
+          let last=0,m;
+          while((m=re.exec(text))!==null){
+            if(m.index>last) frag.appendChild(document.createTextNode(text.slice(last,m.index)));
+            const mark=document.createElement('mark');
+            mark.className='ev-hit';
+            mark.textContent=m[0];
+            frag.appendChild(mark);
+            hits.push(mark);
+            last=m.index+m[0].length;
+          }
+          if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+          node.parentNode.replaceChild(frag,node);
+        });
+      });
+    }
+    function openParents(el){
+      const section=el.closest('[data-section]');
+      const sub=el.closest('[data-sub]');
+      const subsub=el.closest('.ev-subsub');
+      if(section)setSection(section,true);
+      if(sub)setSub(sub,true);
+      if(subsub)setSubsub(subsub,true);
+    }
+    function updateNav(){
+      const has=hits.length>0;
+      const prev=root.querySelector('[data-action="prev-hit"]');
+      const next=root.querySelector('[data-action="next-hit"]');
+      if(prev)prev.disabled=!has;
+      if(next)next.disabled=!has;
+      if(counter) counter.textContent=has?`${active+1} / ${hits.length}`:'';
+      hits.forEach((m,i)=>m.classList.toggle('ev-hit-active',i===active));
+    }
+    function goToHit(index){
+      if(!hits.length)return;
+      active=(index+hits.length)%hits.length;
+      const mark=hits[active];
+      openParents(mark);
+      updateNav();
+      setTimeout(()=>{
+        const r=mark.getBoundingClientRect();
+        const searchH=search?search.getBoundingClientRect().height:0;
+        const topOffset=139+searchH+12;
+        const targetY=r.top+window.scrollY-(window.innerHeight/2)+(r.height/2);
+        const adjustedY=Math.max(0,targetY-(topOffset/2));
+        window.scrollTo({top:adjustedY,behavior:'smooth'});
+      },80);
+    }
+    function executeSearch(raw,jump){
+      clearHighlights();
+      const query=raw.trim();
+      if(!query){
+        if(status)status.textContent='';
+        if(search)search.classList.remove('ev-no-results');
+        return;
+      }
+      const needle=query.toLocaleLowerCase('ru-RU');
+      searchableNodes().forEach(el=>{
+        if(el.textContent.toLocaleLowerCase('ru-RU').includes(needle)){
+          openParents(el);
+        }
+      });
+      highlight(query);
+      if(hits.length){
+        active=0;
+        if(status)status.textContent='';
+        if(search)search.classList.remove('ev-no-results');
+        updateNav();
+        if(jump)goToHit(0);
+      }else{
+        active=-1;
+        if(status)status.textContent='Ничего не найдено';
+        if(search)search.classList.add('ev-no-results');
+        updateNav();
+      }
+    }
+
+    /* 8. СКРОЛЛ К НАЧАЛУ РАЗДЕЛА */
+    function scrollToSectionStart(section){
+      if(!section)return;
+      const rect=section.getBoundingClientRect();
+      const topAbs=rect.top+window.scrollY;
+      const searchH=search?search.getBoundingClientRect().height:0;
+      window.scrollTo({top:Math.max(0,topAbs-139-searchH),behavior:'smooth'});
+    }
+
+    /* 9. ОБРАБОТЧИКИ */
+    all('.ev-tag').forEach(tag=>{
+      tag.addEventListener('click',e=>{
+        const section=document.getElementById(tag.dataset.target);
+        if(!section)return;
+        e.preventDefault();
+        all('.ev-tag').forEach(t=>t.classList.remove('is-active'));
+        tag.classList.add('is-active');
+        setSection(section,true);
+        setTimeout(()=>scrollToSectionStart(section),50);
+      });
+    });
+    all('.ev-section-head').forEach(head=>{
+      head.addEventListener('click',()=>{
+        const section=head.closest('[data-section]');
+        if(!section)return;
+        const body=section.querySelector('.ev-section-body');
+        if(body)setSection(section,body.hidden);
+      });
+    });
+    all('[data-sub]').forEach(sub=>{
+      const head=sub.querySelector('.ev-sub-head');
+      const body=sub.querySelector('.ev-sub-body');
+      if(!head||!body)return;
+      if(head.classList.contains('ev-sub-static')){
+        const arrow=sub.querySelector('.ev-sub-arrow');
+        if(arrow) arrow.textContent='−';
+        body.hidden=false;
+        return;
+      }
+      head.addEventListener('click',()=>{setSub(sub,body.hidden);updateGlobalButtons();});
+      head.addEventListener('keydown',e=>{
+        if(e.key==='Enter'||e.key===' '){e.preventDefault();head.click();}
+      });
+    });
+    all('.ev-subsub').forEach(subsub=>{
+      const head=subsub.querySelector('.ev-subsub-head');
+      const body=subsub.querySelector('.ev-subsub-body');
+      if(!head||!body)return;
+      head.addEventListener('click',()=>{setSubsub(subsub,body.hidden);updateGlobalButtons();});
+      head.addEventListener('keydown',e=>{
+        if(e.key==='Enter'||e.key===' '){e.preventDefault();head.click();}
+      });
+    });
+    all('.ev-group-section-tag').forEach(tag=>{
+      tag.addEventListener('click',()=>{
+        const section=document.getElementById(tag.dataset.target);
+        if(!section)return;
+        setSection(section,true);
+        updateGlobalButtons();
+        setTimeout(()=>scrollToSectionStart(section),50);
+      });
+    });
+    all('.ev-subtag').forEach(tag=>{
+      tag.addEventListener('click',()=>{
+        const target=tag.dataset.target;
+        if(!target)return;
+        const el=document.getElementById(target);
+        if(!el)return;
+        all('.ev-subtag').forEach(t=>t.classList.remove('is-active'));
+        tag.classList.add('is-active');
+        if(el.classList.contains('ev-subsub')){
+          const sub=el.closest('[data-sub]');
+          const section=el.closest('[data-section]');
+          if(section)setSection(section,true);
+          if(sub)setSub(sub,true);
+          setSubsub(el,true);
+        }else if(el.classList.contains('ev-sub')){
+          const section=el.closest('[data-section]');
+          if(section)setSection(section,true);
+          setSub(el,true);
+        }
+        updateGlobalButtons();
+        el.scrollIntoView({behavior:'smooth',block:'center'});
+      });
+    });
+
+    all('button[data-action]').forEach(btn=>{
+      btn.addEventListener('click',function(e){
+        const action=btn.dataset.action;
+
+        if(action==='open-all-sections'){
+          e.preventDefault();e.stopPropagation();
+          const open=!sectionsAreOpen();
+          sections.forEach(s=>setSection(s,open));
+          updateGlobalButtons();
+          return;
+        }
+        if(action==='open-all'){
+          e.preventDefault();e.stopPropagation();
+          const open=!commandmentsAreOpen();
+          setAllCommandments(open);
+          return;
+        }
+        if(action==='section-toggle'){
+          e.preventDefault();e.stopPropagation();
+          const section=btn.closest('[data-section]');
+          if(!section)return;
+          const body=section.querySelector('.ev-section-body');
+          if(body)setSection(section,body.hidden);
+          updateGlobalButtons();
+          return;
+        }
+        if(action==='sub-close'){
+          e.preventDefault();e.stopPropagation();
+          const sub=btn.closest('[data-sub]');
+          const subsub=btn.closest('.ev-subsub');
+          if(sub)setSub(sub,false);
+          if(subsub)setSubsub(subsub,false);
+          updateGlobalButtons();
+          return;
+        }
+        if(action==='section-top'){
+          e.preventDefault();e.stopPropagation();
+          const section=btn.closest('[data-section]');
+          if(section)scrollToSectionStart(section);
+          return;
+        }
+        if(action==='next-sub'){
+          e.preventDefault();e.stopPropagation();
+          const current=btn.closest('[data-section]');
+          if(!current)return;
+          const idx=sections.indexOf(current);
+          const next=sections[idx+1];
+          if(next){
+            setSection(next,true);
+            setTimeout(()=>scrollToSectionStart(next),50);
+          }
+          return;
+        }
+        if(action==='font-minus'||action==='font-plus'){
+          e.preventDefault();e.stopPropagation();
+          fontLevel+=(action==='font-plus'?1:-1);
+          fontLevel=Math.max(-5,Math.min(5,fontLevel));
+          applyFontLevel();
+          return;
+        }
+        if(action==='font-reset'){
+          e.preventDefault();e.stopPropagation();
+          fontLevel=0;
+          applyFontLevel();
+          return;
+        }
+        if(action==='prev-hit'){
+          e.preventDefault();e.stopPropagation();
+          goToHit(active-1);
+          return;
+        }
+        if(action==='next-hit'){
+          e.preventDefault();e.stopPropagation();
+          goToHit(active+1);
+          return;
+        }
+        if(action==='clear-search'){
+          e.preventDefault();e.stopPropagation();
+          const anchor=(active>=0&&hits[active])?hits[active]:(hits[0]||null);
+          let anchorAbsTop = null;
+          let anchorViewportTop = null;
+          if(anchor){
+            const r = anchor.getBoundingClientRect();
+            anchorAbsTop = r.top + window.scrollY;
+            anchorViewportTop = r.top;
+          }
+          if(input) input.value = '';
+          clearHighlights();
+          if(status) status.textContent = '';
+          if(search) search.classList.remove('ev-no-results');
+          if(anchorAbsTop !== null && anchorViewportTop !== null){
+            const target = anchorAbsTop - anchorViewportTop;
+            window.scrollTo({top: Math.max(0, target), left: window.scrollX, behavior: 'auto'});
+          }
+          root.classList.remove('ev-search-active');
+          searchFixed = false;
+          root.style.removeProperty('--ev-search-left');
+          root.style.removeProperty('--ev-search-width');
+          searchOriginalTop = 0;
+          if(input) input.focus({ preventScroll:true });
+          return;
+        }
+      });
+    });
+
+    /* 10. ПОЛЕ ПОИСКА */
+    if(input){
+      input.addEventListener('input',function(){
+        clearTimeout(timer);
+        timer=setTimeout(()=>executeSearch(input.value,true),180);
+      });
+      input.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){ e.preventDefault(); executeSearch(input.value,true); }
+        else if(e.key==='ArrowRight'&&hits.length){ e.preventDefault(); goToHit(active+1); }
+        else if(e.key==='ArrowLeft'&&hits.length){ e.preventDefault(); goToHit(active-1); }
+      });
+    }
+
+    /* 11. STICKY */
+    var searchFixed = false;
+    var searchOriginalTop = 0;
+    function rememberSearchPosition(){
+      if(!search || searchFixed) return;
+      var rect = search.getBoundingClientRect();
+      searchOriginalTop = rect.top + window.scrollY;
+    }
+    function updateSearchFixedPosition(){
+      if(!searchFixed || !search) return;
+      var rect = root.getBoundingClientRect();
+      root.style.setProperty('--ev-search-left', Math.round(rect.left) + 'px');
+      root.style.setProperty('--ev-search-width', Math.round(rect.width) + 'px');
+    }
+    function fixSearch(){
+      if(searchFixed || !search) return;
+      var rect = search.getBoundingClientRect();
+      root.style.setProperty('--ev-search-left', Math.round(rect.left) + 'px');
+      root.style.setProperty('--ev-search-width', Math.round(rect.width) + 'px');
+      searchFixed = true;
+      root.classList.add('ev-search-active');
+      updateSearchFixedPosition();
+    }
+    function unfixSearch(){
+      if(!searchFixed) return;
+      searchFixed = false;
+      root.classList.remove('ev-search-active');
+      root.style.removeProperty('--ev-search-left');
+      root.style.removeProperty('--ev-search-width');
+    }
+    function handleScroll(){
+      if(!search) return;
+      var queryActive = input && input.value && input.value.trim().length > 0;
+      if(!searchFixed){
+        if(!queryActive){
+          if(searchOriginalTop === 0) rememberSearchPosition();
+          return;
+        }
+        if(searchOriginalTop === 0) rememberSearchPosition();
+        if(window.scrollY > searchOriginalTop - 10) fixSearch();
+      } else {
+        if(!queryActive){ unfixSearch(); return; }
+        if(window.scrollY < searchOriginalTop - 10) unfixSearch();
+      }
+    }
+    rememberSearchPosition();
+    window.addEventListener('resize', function(){
+      if(!searchFixed) searchOriginalTop = 0;
+      rememberSearchPosition();
+    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    /* 12. ФОКУС-ОБВОДКА */
+    (function addFocusOutline(){
+      var styleId = 'ev-focus-outline';
+      if(document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = [
+        '#evangelie-page#evangelie-page .ev-section-head:focus-visible,',
+        '#evangelie-page#evangelie-page .ev-sub-head:focus-visible,',
+        '#evangelie-page#evangelie-page .ev-subsub-head:focus-visible,',
+        '#evangelie-page#evangelie-page .ev-btn:focus-visible,',
+        '#evangelie-page#evangelie-page button:focus-visible {',
+        '  outline: 1px solid rgba(183,156,119,.55) !important;',
+        '  outline-style: solid !important;',
+        '  outline-color: rgba(183,156,119,.55) !important;',
+        '  outline-width: 1px !important;',
+        '  outline-offset: -1px !important;',
+        '  box-shadow: inset 0 0 0 1px rgba(183,156,119,.55) !important;',
+        '}',
+        '#evangelie-page#evangelie-page .ev-section-head:focus:not(:focus-visible),',
+        '#evangelie-page#evangelie-page .ev-sub-head:focus:not(:focus-visible),',
+        '#evangelie-page#evangelie-page .ev-subsub-head:focus:not(:focus-visible),',
+        '#evangelie-page#evangelie-page .ev-btn:focus:not(:focus-visible),',
+        '#evangelie-page#evangelie-page button:focus:not(:focus-visible) {',
+        '  outline: none !important;',
+        '  outline-style: none !important;',
+        '  box-shadow: none !important;',
+        '}'
+      ].join('\n');
+      document.head.appendChild(style);
+    })();
+
+    /* 13. ИНИЦИАЛИЗАЦИЯ */
+    openAllSectionsOnly();
+    updateGlobalButtons();
+    updateNav();
+
+    /* ============================================================
+       14. НОВОЕ: указатель по страстям → раздел аккордеона
+       ============================================================ */
+    all('.ev-index-item').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = document.getElementById(btn.dataset.target);
+        if(!target) return;
+
+        setSection(target, true);
+
+        target.classList.add('ev-flash');
+        setTimeout(function(){ target.classList.remove('ev-flash'); }, 1900);
+
+        setTimeout(function(){ scrollToSectionStart(target); }, 50);
+      });
+    });
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initEvangelie);
+  }else{
+    initEvangelie();
+  }
+  window.addEventListener('load',initEvangelie);
+})();
+</script>
+
+</body>
+</html>
