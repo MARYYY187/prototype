@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дневник кающегося</title>
+
+<style>
+/* ============================================================
+   ШРИФТ KINDENOSCA
+   ============================================================ */
+@font-face{
+  font-family:'Kindenosca';
+  src:url('https://uralzvon.site/new_font/Kindentosca.otf') format('opentype');
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+/* ============================================================
+   БАЗА
+   ============================================================ */
+#evangelie-page{
+  --ev-text:#3a322a;
+  --ev-muted:#766f65;
+  --ev-border:#d9c8ac;
+  --ev-mark:#f6f0e7;
+  --ev-mark-current:#ebe1d2;
+  --ev-note:#8f6532;
+
+  --ev-section-head-bg:#e3d2b0;
+  --ev-section-head-bg-hover:#dcc9a5;
+
+  --ev-page-bg:#fbf7ee;
+
+  --ev-deadly-head:#f0e6d2;
+  --ev-deadly-body:#fdfaf4;
+  --ev-heavy-head:#f5eedc;
+  --ev-heavy-body:#fefcf7;
+  --ev-light-head:#f9f3e4;
+  --ev-light-body:#fffefb;
+
+  font-family:inherit;
+  color:var(--ev-text);
+  line-height:1.65;
+  max-width:100%;
+  font-size:18px;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+#evangelie-page *,
+#evangelie-page *::before,
+#evangelie-page *::after{box-sizing:border-box;}
+
+/* ============================================================
+   ВВОДНЫЙ БЛОК
+   ============================================================ */
+.ev-intro-block{margin:0 auto 40px;max-width:760px;font-family:inherit;}
+.ev-intro-eyebrow{
+  display:block;text-align:center;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:#a08d6d;margin:0 0 14px;font-weight:600;
+}
+.ev-intro-title{
+  text-align:center;font-weight:700;font-size:28px;color:#2f2820;
+  margin:0 0 10px;line-height:1.2;letter-spacing:-.2px;
+}
+.ev-intro-lead{
+  display:block;text-align:center;
+  font-family:'Kindenosca','Caveat','Brush Script MT',cursive;
+  font-weight:400;font-style:italic;font-size:52px;line-height:1.05;
+  color:#a5793f;margin:0 auto 30px;letter-spacing:.5px;
+  position:relative;padding-bottom:22px;
+}
+.ev-intro-lead::after{
+  content:'';position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:220px;height:1px;background:linear-gradient(90deg,transparent,#c9b48b,transparent);
+}
+.ev-intro-note{
+  position:relative;background:#f5efe5;border-radius:14px;
+  padding:28px 32px 22px;color:#7a6a52;
+  font-family:'Kindenosca','Caveat','Brush Script MT',cursive;
+  font-weight:400;font-style:normal;
+  font-size:28px;line-height:1.35;text-align:center;
+  margin:0 0 34px;
+  box-shadow:0 1px 0 #fff inset, 0 8px 24px -16px rgba(120,95,60,.35);
+}
+.ev-intro-note::before{
+  content:'❝';position:absolute;top:-6px;left:22px;font-size:44px;
+  color:#c9b48b;font-family:Georgia,serif;line-height:1;
+}
+.ev-intro-note .ev-intro-note-text{
+  font-family:'Kindenosca','Caveat','Brush Script MT',cursive !important;
+  font-weight:400 !important;
+  font-style:normal !important;
+  font-size:30px;
+  line-height:1.35;
+  text-align:center;
+  color:#7a6a52;
+}
+.ev-intro-note .ev-intro-bottom-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;width:100%;margin:14px 0 0;
+}
+.ev-intro-note .ev-intro-divider{
+  flex:1 1 auto;height:14px;
+  background-image:url('https://uralzvon.site/wp-content/uploads/2026/09/krestik_2-dlya-sajta-2.svg');
+  background-repeat:no-repeat;background-position:center center;background-size:100% 100%;
+}
+.ev-intro-note .ev-intro-note-author{
+  flex:0 0 auto;
+  font-family:'Kindenosca','Caveat','Brush Script MT',cursive !important;
+  font-size:20px;line-height:1.3;text-align:right;
+  white-space:nowrap;color:#a08d6d;letter-spacing:.3px;
+}
+
+/* ============================================================
+   ИНСТРУКЦИЯ «В дневнике восемь глав…»
+   ============================================================ */
+.ev-guide{margin:26px 0;padding:0;}
+.ev-guide__lead{
+  font-size:16px;line-height:1.7;color:#3a322a;margin:0 0 18px;font-weight:600;
+}
+.ev-guide__list{
+  list-style:none;padding:0;margin:0;counter-reset:evguide;
+}
+.ev-guide__list > li{
+  position:relative;padding:14px 16px 14px 62px;
+  background:#fffdf8;border:1px solid #efe5d2;border-radius:12px;
+  margin:0 0 12px;font-size:16px;line-height:1.7;color:#3a322a;
+  counter-increment:evguide;
+}
+.ev-guide__list > li:last-child{margin-bottom:0;}
+.ev-guide__list > li::before{
+  content:counter(evguide);
+  position:absolute;top:14px;left:16px;
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:#f0dcb6;color:#7a5a2c;font-weight:700;font-size:15px;
+  font-family:inherit;box-shadow:inset 0 0 0 1px #e3cb9f;
+}
+.ev-guide__list > li em{color:#8f6532;font-style:italic;}
+
+/* ============================================================
+   АКЦЕНТНЫЕ ЦИТАТЫ
+   ============================================================ */
+.ev-accent{
+  position:relative;
+  background:#f5efe5;
+  border:1px solid #e6dcc7;
+  border-radius:14px;
+  padding:26px 32px 26px 34px;
+  color:#3a322a;
+  font-style:italic;
+  font-size:19px;
+  line-height:1.6;
+  text-align:center;
+  margin:24px 0;
+  box-shadow:0 1px 0 #fff inset, 0 6px 18px -14px rgba(120,95,60,.30);
+}
+.ev-accent::before{
+  content:'';position:absolute;left:0;top:16px;bottom:16px;width:4px;border-radius:4px;
+  background:linear-gradient(180deg,#d5b98a,#b89468);
+}
+.ev-accent b{color:#2f2820;font-style:normal;}
+
+/* ============================================================
+   БЛОК «Всякий грех может быть прощён…» — TIMELINE
+   ============================================================ */
+.ev-terms{margin:26px 0;padding:0;}
+.ev-terms__lead{
+  font-size:16px;line-height:1.7;color:#3a322a;margin:0 0 22px;font-weight:600;
+}
+.ev-terms__list{
+  list-style:none;position:relative;
+  padding:4px 0 4px 42px;margin:0 0 22px;counter-reset:evterms;
+}
+.ev-terms__list::before{
+  content:'';position:absolute;left:15px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,#e3cb9f,#f0dcb6 60%,#e3cb9f);
+  border-radius:2px;
+}
+.ev-terms__list > li{
+  position:relative;padding:0 0 22px;margin:0;
+  font-size:16px;line-height:1.7;color:#3a322a;
+  counter-increment:evterms;
+}
+.ev-terms__list > li:last-child{padding-bottom:0;}
+.ev-terms__list > li::before{
+  content:counter(evterms);
+  position:absolute;left:-42px;top:-2px;
+  width:32px;height:32px;border-radius:50%;
+  background:#fffdf8;border:2px solid #d5b98a;
+  display:flex;align-items:center;justify-content:center;
+  color:#7a5a2c;font-weight:700;font-size:14px;font-family:inherit;
+  box-shadow:0 0 0 4px #fdfbf5;
+}
+.ev-terms__list > li em{color:#8f6532;font-style:italic;}
+
+/* ============================================================
+   «РАЗМЕР ТЕКСТА» и ПОИСК
+   ============================================================ */
+#evangelie-page .ev-tools{background:transparent;padding:0 0 12px;margin:0;}
+#evangelie-page .ev-text-size{
+  display:flex;justify-content:flex-end;align-items:center;
+  width:100%;margin:0 0 8px;padding:0;gap:5px;
+}
+#evangelie-page .ev-text-size-label{
+  font-size:.8em;color:var(--ev-muted);margin-right:2px;transform:translateY(4px);
+}
+#evangelie-page .ev-btn{
+  appearance:none;border:1px solid var(--ev-border);background:#f8f4ed;
+  color:var(--ev-text);border-radius:999px;padding:6px 12px;
+  font-family:inherit;font-size:.92em;cursor:pointer;
+  transition:background .15s,border-color .15s;
+}
+#evangelie-page .ev-btn:hover{background:#f5ecd9;border-color:#c7b69d;}
+#evangelie-page .ev-text-size .ev-btn{width:34px;min-width:34px;padding:5px 0;font-size:.82em;}
+
+#evangelie-page .ev-search{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  background:#faf7f1;border-top:1px solid #d9cdbb;border-bottom:1px solid #d9cdbb;
+  border-radius:6px;margin:12px 0;
+}
+#evangelie-page .ev-search .ev-search-input{
+  flex:1 1 auto;min-width:0;height:36px;border:1px solid #c7b69d;
+  border-radius:7px;padding:7px 10px;background:#fffdf9;
+  font-family:inherit;font-size:.9em;color:var(--ev-text);
+}
+#evangelie-page .ev-search .ev-search-nav{display:flex;gap:6px;margin-left:auto;}
+#evangelie-page .ev-search .ev-btn{
+  width:32px;min-width:32px;height:32px;padding:0;display:inline-flex;
+  align-items:center;justify-content:center;border-radius:7px;
+}
+#evangelie-page .ev-search .ev-search-current{
+  font-size:.82em;color:var(--ev-muted);min-width:52px;text-align:center;
+}
+#evangelie-page .ev-search .ev-search-status{
+  font-size:.82em;color:var(--ev-muted);display:none;
+}
+#evangelie-page .ev-search.ev-no-results .ev-search-status{display:inline-block;}
+#evangelie-page .ev-search.ev-no-results .ev-search-nav{display:none;}
+
+#evangelie-page .ev-actions{
+  display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;
+  gap:12px;margin:12px 0 15px;
+}
+#evangelie-page .ev-actions .ev-btn{font-size:.72em;padding:5px 10px;}
+
+/* ============================================================
+   РАЗДЕЛЫ
+   ============================================================ */
+#evangelie-page .ev-section{
+  margin:0 0 14px;
+  border:1px solid #cbb994;
+  border-radius:9px;
+  overflow:hidden;
+  background:#fff;
+}
+#evangelie-page .ev-section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--ev-section-head-bg);
+  padding:8px 12px;
+  border-left:3px solid #b89468;
+  cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+#evangelie-page .ev-section-head:hover,
+#evangelie-page .ev-section-head.is-open{
+  background:var(--ev-section-head-bg-hover);
+}
+#evangelie-page .ev-section-title{
+  margin:0;font-size:1em;line-height:1.25;color:#2f2820;flex:1;letter-spacing:.3px;
+}
+#evangelie-page .ev-section-title strong{color:#2f2820;}
+
+#evangelie-page .ev-section-head .ev-btn{
+  background:#fffdf9;
+  border-color:#c9b48b;
+  color:#3a322a;
+  font-weight:500;
+}
+#evangelie-page .ev-section-head .ev-btn:hover{
+  background:#fff;
+  border-color:#b89468;
+}
+
+#evangelie-page .ev-section-body{
+  padding:14px 14px 16px;
+  background:var(--ev-page-bg);
+}
+
+/* ============================================================
+   ПОДРАЗДЕЛЫ
+   ============================================================ */
+#evangelie-page .ev-sub{
+  border:1px solid #e6d8b8;
+  border-radius:12px;
+  margin:12px 0;
+  overflow:hidden;
+  box-shadow:0 1px 0 #fff inset, 0 4px 12px -10px rgba(120,95,60,.20);
+}
+#evangelie-page .ev-sub-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:12px 18px;margin:0;cursor:pointer;user-select:none;
+}
+#evangelie-page .ev-sub-title{
+  margin:0;font-size:.95em;line-height:1.2;font-weight:700;
+  color:#2f2820;flex:1;letter-spacing:.2px;
+}
+#evangelie-page .ev-sub-arrow{
+  flex:0 0 20px;width:20px;height:20px;text-align:center;
+  color:#7a5a2c;font-family:Arial,sans-serif;font-size:18px;
+  line-height:20px;font-weight:400;
+}
+#evangelie-page .ev-sub-body{padding:18px 20px;}
+
+#evangelie-page .ev-sub--deadly .ev-sub-head{background:var(--ev-deadly-head);}
+#evangelie-page .ev-sub--deadly .ev-sub-body{background:var(--ev-deadly-body);}
+#evangelie-page .ev-sub--heavy .ev-sub-head{background:var(--ev-heavy-head);}
+#evangelie-page .ev-sub--heavy .ev-sub-body{background:var(--ev-heavy-body);}
+#evangelie-page .ev-sub--light .ev-sub-head{background:var(--ev-light-head);}
+#evangelie-page .ev-sub--light .ev-sub-body{background:var(--ev-light-body);}
+
+#evangelie-page .ev-sub-head:hover{
+  background-image:linear-gradient(rgba(138,107,63,.07),rgba(138,107,63,.07));
+}
+#evangelie-page .ev-sub-head.is-open{
+  border-bottom:1px solid rgba(138,107,63,.15);
+}
+
+/* ============================================================
+   ТЕКСТ ГРЕХОВ + АВТО-НУМЕРАЦИЯ
+   Номера — коричневые, курсивные, в каждом подразделе с 1.
+   ============================================================ */
+#evangelie-page .ev-sub-body{
+  counter-reset:evitem;             /* сброс нумерации в каждом подразделе */
+}
+#evangelie-page .ev-item{
+  position:relative;
+  margin:0 0 14px;
+  padding:0 0 0 34px;               /* отступ слева под номер */
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  font-size:.96em;
+  line-height:1.65;
+  counter-increment:evitem;         /* наращиваем счётчик */
+}
+#evangelie-page .ev-item::before{
+  content:counter(evitem) ".";      /* 1.  2.  3. … */
+  position:absolute;
+  left:0;
+  top:0;
+  color:var(--ev-note);             /* коричневый #8f6532 */
+  font-style:italic;                /* курсив */
+  font-weight:700;
+  font-size:.95em;
+  line-height:1.65;
+}
+#evangelie-page .ev-item:last-child{margin-bottom:0;}
+
+#evangelie-page .ev-item--deadly{font-weight:700;color:#241d16;}
+#evangelie-page .ev-item--heavy{font-weight:400;color:#2f2820;}
+#evangelie-page .ev-item--light{font-style:italic;font-weight:400;color:#423a30;}
+
+#evangelie-page .ev-item em,
+#evangelie-page .ev-item i{font-style:italic;font-weight:400;color:#8f6532;}
+
+/* ============================================================
+   ПОДСВЕТКА ПОИСКА
+   ============================================================ */
+#evangelie-page mark.ev-hit{
+  background:var(--ev-mark);color:inherit;padding:0 .06em;border-radius:2px;
+}
+#evangelie-page mark.ev-hit-active{background:var(--ev-mark-current);}
+#evangelie-page [hidden]{display:none;}
+
+/* ============================================================
+   МАСШТАБ
+   ============================================================ */
+#evangelie-page.ev-font-minus-2 .ev-item{font-size:.86em;}
+#evangelie-page.ev-font-minus-1 .ev-item{font-size:.92em;}
+#evangelie-page.ev-font-plus-1  .ev-item{font-size:1.05em;}
+#evangelie-page.ev-font-plus-2  .ev-item{font-size:1.10em;}
+#evangelie-page.ev-font-plus-3  .ev-item{font-size:1.15em;}
+#evangelie-page.ev-font-plus-4  .ev-item{font-size:1.20em;}
+#evangelie-page.ev-font-plus-5  .ev-item{font-size:1.25em;}
+
+/* ============================================================
+   МОБИЛЬНЫЕ
+   ============================================================ */
+@media(max-width:650px){
+  #evangelie-page{font-size:16px;}
+  .ev-intro-block{padding:0 6px;}
+  .ev-intro-title{font-size:22px;}
+  .ev-intro-lead{font-size:34px;padding-bottom:16px;}
+  .ev-intro-lead::after{width:140px;}
+  .ev-intro-note{font-size:22px;padding:22px 20px 18px;border-radius:12px;}
+  .ev-intro-note .ev-intro-note-text{font-size:22px;}
+  .ev-intro-note .ev-intro-note-author{font-size:16px;}
+  .ev-guide__list > li{padding:12px 14px 12px 56px;font-size:15px;border-radius:10px;}
+  .ev-guide__list > li::before{width:28px;height:28px;top:12px;left:14px;font-size:14px;}
+  .ev-accent{padding:20px 22px 20px 26px;font-size:17px;border-radius:12px;margin:20px 0;}
+  .ev-terms__list{padding-left:38px;}
+  .ev-terms__list::before{left:13px;}
+  .ev-terms__list > li{font-size:15px;padding-bottom:18px;}
+  .ev-terms__list > li::before{left:-38px;width:28px;height:28px;font-size:13px;}
+  #evangelie-page .ev-search{padding:7px 6px;gap:4px;flex-wrap:nowrap;}
+  #evangelie-page .ev-search .ev-search-input{font-size:.82em;height:30px;}
+  #evangelie-page .ev-search .ev-btn{width:28px;min-width:28px;height:28px;font-size:13px;}
+  #evangelie-page .ev-text-size-label{font-size:12px;}
+  #evangelie-page .ev-text-size .ev-btn{width:28px;min-width:28px;height:28px;font-size:12px;}
+  #evangelie-page .ev-section-body{padding:10px;}
+  #evangelie-page .ev-sub-body{padding:14px 16px;}
+  #evangelie-page .ev-sub-head{padding:10px 14px;}
+  #evangelie-page .ev-item{padding-left:28px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     ВВОДНЫЙ БЛОК
+     ============================================================ -->
+<div class="ev-intro-block">
+  <span class="ev-intro-eyebrow">Перечень смертных грехов и страстей</span>
+  <h1 class="ev-intro-title">Дневник кающегося</h1>
+
+  <div class="ev-intro-note">
+    <div class="ev-intro-note-text">И проповедану быть во имя Его покаянию и прощению грехов во всех народах.</div>
+    <div class="ev-intro-bottom-row">
+      <div class="ev-intro-divider" aria-hidden="true"></div>
+      <div class="ev-intro-note-author">Лк. 24, 47</div>
+    </div>
+  </div>
+
+  <div class="ev-guide">
+    <p class="ev-guide__lead">В дневнике восемь глав, каждая из которых посвящена
+       отдельной страсти. Внутри каждой страсти грехи разделены на три группы:</p>
+
+    <ol class="ev-guide__list">
+      <li>
+        <b>жирным шрифтом</b> выделены грехи смертные; любой из них отрывает
+        нас от Церкви, отлучает от Христа, лишает Божественной благодати и
+        отправляет на вечные муки в ад — такова их тяжесть, если они
+        остаются нераскаянными;
+      </li>
+      <li>
+        обычным шрифтом написаны грехи тяжкие, которые нужно обязательно
+        замечать, каяться в них и регулярно с сокрушением сердца
+        исповедовать. Нельзя их копить: от этого враг укрепляется в сердце,
+        помрачает ум и лишает его способности замечать грехи;
+      </li>
+      <li>
+        <em>курсивом</em> выделены грехи условно простительные. Условно потому,
+        что в разных ситуациях у разных людей степень их опасности может
+        меняться — они могут переходить и в разряд тяжких. Простительные
+        грехи в виде помыслов и чувств не оставляли даже святых, но они при
+        этом сокрушались так, как мы не можем сокрушаться даже о смертных
+        грехах. Опасность простительных грехов в том, что если их не
+        признавать за грехи и оставлять без раскаяния, то можно набрать
+        целый мешок «песчинок», который по весу будет не меньше тяжелого
+        камня <em>(смертного греха)</em> и так же утянет душу на дно ада.
+      </li>
+    </ol>
+  </div>
+
+  <div class="ev-accent">
+    …не только смертный грех, но и <b>любая из страстей, оставленная без
+    борьбы, развитая, да ещё и любимая, точно так же отрывает нас от
+    Христа и лишает вечной жизни</b>.
+  </div>
+
+  <div class="ev-terms">
+    <p class="ev-terms__lead">Всякий грех может быть прощён христианину
+      в таинстве Исповеди при выполнении следующих условий:</p>
+
+    <ol class="ev-terms__list">
+      <li>грех должен быть признан грехом <em>(раньше мы могли не считать
+          то или иное дело греховным и спокойно его совершали, не волнуясь
+          о последствиях)</em>;</li>
+      <li>человеку необходимо раскаяться во грехе и включиться в настоящую
+          борьбу со страстью, его порождающей. Степень покаяния должна
+          соответствовать тяжести греха, чего у большинства из нас обычно
+          не получается из-за отсутствия страха Божия, и как следствие,
+          грехи с лёгкостью повторяются. В прежние века этому обучали
+          духовные наставники;</li>
+      <li>кающемуся нужно стараться не повторять этот грех <em>(особенно
+          это касается грехов смертных)</em>, перестать его любить. В его
+          сердце должен произойти разрыв с грехом, родиться отторжение
+          греха. При воспоминании о грехе должно появиться глубокое
+          сожаление о том, что ранее его совершали.</li>
+    </ol>
+  </div>
+
+  <div class="ev-accent">
+    По слову святителя Игнатия <em>(Брянчанинова)</em>, даже один
+    нераскаянный смертный грех может утянуть душу в ад.
+  </div>
+
+</div>
+
+
+<!-- ============================================================
+     ОСНОВНОЙ БЛОК
+     ============================================================ -->
+<div id="evangelie-page" class="ev-page">
+  <div class="ev-tools">
+    <div class="ev-text-size" aria-label="Размер текста">
+      <span class="ev-text-size-label">Размер текста</span>
+      <button class="ev-btn" type="button" data-action="font-minus">А−</button>
+      <button class="ev-btn" type="button" data-action="font-reset">А</button>
+      <button class="ev-btn" type="button" data-action="font-plus">А+</button>
+    </div>
+
+    <div class="ev-search" role="search">
+      <input class="ev-search-input" type="search" placeholder="Поиск по грехам..." aria-label="Поиск" />
+      <div class="ev-search-nav">
+        <button class="ev-btn" type="button" data-action="prev-hit" disabled>←</button>
+        <span class="ev-search-current"></span>
+        <button class="ev-btn" type="button" data-action="next-hit" disabled>→</button>
+      </div>
+      <span class="ev-search-status"></span>
+      <button class="ev-btn" type="button" data-action="clear-search">×</button>
+    </div>
+
+    <div class="ev-actions">
+      <button class="ev-btn" type="button" data-action="open-all-sections">Развернуть все разделы</button>
+      <button class="ev-btn" type="button" data-action="open-all">Развернуть все грехи</button>
+    </div>
+  </div>
+
+  <!-- ================== РАЗДЕЛ 1. ЧРЕВОУГОДИЕ ================== -->
+  <section id="ev-section-1" class="ev-section">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>1. ЧРЕВОУГОДИЕ</strong></h2>
+      <button class="ev-btn" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body" hidden>
+
+      <div class="ev-sub ev-sub--deadly">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Смертные грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--deadly" data-search>Напивались до беспамятства;</p>
+          <p class="ev-item ev-item--deadly" data-search>Употребляли спиртное до сильного опьянения в течение нескольких дней <em>(запой)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Подвергали себя отравлению алкоголем от избыточного употребления <em>(до рвоты и других осложнений здоровья)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Употребляли в пищу кровь животных <em>(запрещено правилом 67-м Шестого Вселенского Собора)</em> и удавленину;</p>
+          <p class="ev-item ev-item--deadly" data-search>Обращались за оздоровлением к экстрасенсам, колдунам, гипнотизерам, «бабкам», «народным целителям», сектантам, знахарям и пр.;</p>
+          <p class="ev-item ev-item--deadly" data-search>Применяли для оздоровления заговоры;</p>
+          <p class="ev-item ev-item--deadly" data-search>Обращались за оздоровлением к природе, звездам, земле, воде, огню и пр.;</p>
+          <p class="ev-item ev-item--deadly" data-search>Кодировались от ожирения, курения, пьянства и пр.;</p>
+        </div>
+      </div>
+
+      <div class="ev-sub ev-sub--heavy">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Тяжкие грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--heavy" data-search>Служили своему телу, как самому драгоценному в жизни; много сил, средств, времени тратили на заботы о теле <em>(культ тела)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Чрезмерно объедались при употреблении пищи <em>(обжорство)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Ночью просыпались от чувства голода и не могли уснуть, пока не наедались <em>(работающих в ночную смену это не касается)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Перекусывали перед сном, потакая распущенности своего чрева, хотя ужинали в положенное время и не были по-настоящему голодны;</p>
+          <p class="ev-item ev-item--heavy" data-search>Несколько раз в неделю употребляли пиво <em>(так постепенно формируется привыкание и зависимость)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>За ужином непременно желали выпить спиртное;</p>
+          <p class="ev-item ev-item--heavy" data-search>Пили спиртное и веселились в пятницу, отмечая конец рабочей недели;</p>
+          <p class="ev-item ev-item--heavy" data-search>Не соблюдали посты <em>(каждая среда и пятница и четыре многодневных поста в году)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Не могли целиком выдержать пост, неоправданно нарушали посты;</p>
+          <p class="ev-item ev-item--heavy" data-search>Привязывались к наслаждениям телесным <em>(баня, купание, загорание и пр.)</em> относились к ним не как к необходимости, а как к удовольствию;</p>
+          <p class="ev-item ev-item--heavy" data-search>Занимались оздоровлением тела по различным методикам, имеющим чуждый религиозно-мистический или противоречащим христианской нравственности смысл;</p>
+          <p class="ev-item ev-item--heavy" data-search>Переедали и упивались вином не только в мирские, но и в церковные праздники;</p>
+          <p class="ev-item ev-item--heavy" data-search>Нарушали режим питания по требованию желудка; часто в течение дня употребляли пищу <em>(это не касается тех, кому дробное питание предписано врачом)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Перекусывали между приемами пищи без действительной необходимости, просто по неспособности потерпеть;</p>
+          <p class="ev-item ev-item--heavy" data-search>Употребляли приятные жидкости <em>(сок, компот, газированная вода и прочее)</em> сверх необходимой меры, услаждались приятным вкусом напитка, пили без ограничения;</p>
+          <p class="ev-item ev-item--heavy" data-search>Привязывались к острым пикантным приправам и закускам <em>(майонез, кетчуп, горчица, перец и пр.)</em> — пища без них казалась невкусной <em>(умеренное употребление приправ грехом не является)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Желали обязательного разнообразия в пище, роптали, что надоело одно и то же, хотелось чего-нибудь вкусненького;</p>
+          <p class="ev-item ev-item--heavy" data-search>Привязывались к лакомствам <em>(в разном возрасте они могут быть разными — шоколад, торты, сгущенка, конфеты, орехи, семечки, сухарики и пр.)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Ели тайно от других, не желая потерпеть до момента общего застолья или не желая делиться с другими <em>(нередко случается у детей)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>По причине привязанности к лакомствам не делились ими с окружающими;</p>
+          <p class="ev-item ev-item--heavy" data-search>Были изнеженны, долго спали, после пробуждения долго лежали в постели;</p>
+        </div>
+      </div>
+
+      <div class="ev-sub ev-sub--light">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Условно простительные грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--light" data-search>Употребляли спиртное до первых характерных признаков опьянения: излишняя веселость, болтливость, развязность, нарушение координации движений и искажение произносимых слов <em>(если прекратить дальнейшее употребление алкоголя, эти признаки исчезнут, а если продолжить, они примут более греховные формы)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>Переедали <em>(до тяжести в желудке)</em>, после чего наступала вялость, сонливость, лень, уныние <em>(естественная тяжесть в желудке после приёма пищи проходит через 30 — 40 минут)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>Считали употребление пищи приятным, радостным занятием, а не необходимой потребностью тела;</p>
+          <p class="ev-item ev-item--light" data-search>Принимали пищу с услаждением, алчно, торопливо, не пережевывая тщательно;</p>
+          <p class="ev-item ev-item--light" data-search>Были недовольны качеством приготовления пищи, желали более вкусной;</p>
+          <p class="ev-item ev-item--light" data-search>Просыпаясь, сразу же думали о пище;</p>
+          <p class="ev-item ev-item--light" data-search>Сразу после приема пищи мечтали о том, что будем есть в следующий раз;</p>
+          <p class="ev-item ev-item--light" data-search>Вспоминали и мечтали о различных приятных блюдах и лакомствах и услаждались этими воспоминаниями <em>(особенно во время поста)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>Желали друг другу и себе телесного здоровья как самого главного в жизни <em>(для верующего человека важнее является здоровье души, то есть отсутствие страстей и наличие добродетелей)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>Угождали плоти: хотели, чтобы всегда было приятно, в удовольствие, с комфортом <em>(естественные заботы о плоти не возбраняются)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>После приема пищи обязательно ложились, чтобы расслабиться, вздремнуть <em>(при тяжёлых физических работах, пожилым людям и находящимся в болезни — это допускается)</em>.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================== РАЗДЕЛ 2. БЛУД ================== -->
+  <section id="ev-section-2" class="ev-section">
+    <div class="ev-section-head">
+      <h2 class="ev-section-title"><strong>2. БЛУД</strong></h2>
+      <button class="ev-btn" type="button" data-action="section-toggle">Развернуть раздел</button>
+    </div>
+    <div class="ev-section-body" hidden>
+
+      <div class="ev-sub ev-sub--deadly">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Смертные грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--deadly" data-search>Имели плотскую связь до заключения брака <em>(не сохраняли девства, любодеяние)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Допускали зачатие детей до заключения брака;</p>
+          <p class="ev-item ev-item--deadly" data-search>Изменяли второй половине — супружеская измена <em>(прелюбодеяние)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Разрушали венчаный брак;</p>
+          <p class="ev-item ev-item--deadly" data-search>Зачинали детей от внесемейной плотской связи;</p>
+          <p class="ev-item ev-item--deadly" data-search>Вступали в четвертый брак <em>(второй и третий браки требуют епитимии)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Вступали в плотскую связь с бывшим супругом(-ой) после расторжения брака <em>(любодеяние)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Имели однополые плотские связи; вступали в однополый «брак»;</p>
+          <p class="ev-item ev-item--deadly" data-search>Согрешали рукоблудием;</p>
+          <p class="ev-item ev-item--deadly" data-search>Согрешали блудом противоестественным <em>(анальным, оральным, с животными, между однополыми, между близкими родственниками, с несколькими одновременно)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Соединялись в семью с близкими родственниками <em>(кровосмешение)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Блудной связью разрушали чужую семью, вследствие чего дети становились сиротами;</p>
+          <p class="ev-item ev-item--deadly" data-search>Разбивали чужую семью, желая устроить свою личную жизнь;</p>
+          <p class="ev-item ev-item--deadly" data-search>Блудной связью довели кого-либо до отчаяния, до нежелания жить, до самоубийства;</p>
+          <p class="ev-item ev-item--deadly" data-search>Развращали, втягивали в блуд не совершеннолетних, девственника(-цу);</p>
+          <p class="ev-item ev-item--deadly" data-search>Занимались сводничеством <em>(содействовали в знакомстве людей, ищущих блудных отношений)</em>;</p>
+          <p class="ev-item ev-item--deadly" data-search>Вступали в телесные отношения во время беременности</p>
+        </div>
+      </div>
+
+      <div class="ev-sub ev-sub--heavy">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Тяжкие грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--heavy" data-search>Второй, тем более третий браки;</p>
+          <p class="ev-item ev-item--heavy" data-search>Вступили в брак с разведенным(-ой);</p>
+          <p class="ev-item ev-item--heavy" data-search>Целовались, обнимались, нецеломудренно вели себя до заключения брака;</p>
+          <p class="ev-item ev-item--heavy" data-search>Читали сладострастные книги, слушали и пересказывали непристойные анекдоты, смотрели передачи и фильмы с блудными сценами, разрешали это же детям;</p>
+          <p class="ev-item ev-item--heavy" data-search>Считали плотские отношения необходимыми для здоровья и хорошего настроения;</p>
+          <p class="ev-item ev-item--heavy" data-search>Допускали плотский интерес к лицам противоположного пола, через одежду разглядывали тело <em>(рассматривать с любопытством тела однополых тоже греховно)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Ночное осквернение по причине потакания своим страстям в дневное время;</p>
+          <p class="ev-item ev-item--heavy" data-search>Воспоминание с услаждением блудных снов;</p>
+          <p class="ev-item ev-item--heavy" data-search>Вели сладострастная переписка в интернете, рассматривание срамных фотографий;</p>
+          <p class="ev-item ev-item--heavy" data-search>Засматривались с вожделением на красивые лица, неприличные сцены и картины, непристойную рекламу;</p>
+          <p class="ev-item ev-item--heavy" data-search>Носили одежду, подчеркивающую фигуру и не покрывающую <em>(или специально открывающую)</em> непристойные места <em>(это касается и женщин, и мужчин)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Допускали заигрывание, кокетство, кривляние, распущенность рук и языка, намеки, двусмысленность, вольное обращение с лицами противоположного пола;</p>
+          <p class="ev-item ev-item--heavy" data-search>Допускали блудные воспоминания и мечтания, охотно удерживали их в мыслях, не считали грехом происходящее от этого похотное чувство в теле;</p>
+          <p class="ev-item ev-item--heavy" data-search>Распевали любовные и неприличные песни и частушки;</p>
+          <p class="ev-item ev-item--heavy" data-search>Танцевали с бесстыдными телодвижениями;</p>
+          <p class="ev-item ev-item--heavy" data-search>Применяли косметику и другие средства украшения тела для привлечения к себе внимания;</p>
+          <p class="ev-item ev-item--heavy" data-search>Делали пирсинг, татуировки, коррекцию губ, шугаринг и прочее;</p>
+          <p class="ev-item ev-item--heavy" data-search>Супруги проявляли плотское влечение при детях;</p>
+          <p class="ev-item ev-item--heavy" data-search>Не воздерживались в супружеской жизни в посты, в среды и пятницы, воскресные и праздничные дни;</p>
+          <p class="ev-item ev-item--heavy" data-search>Допускали неумеренность в плотских отношениях в законном браке;</p>
+          <p class="ev-item ev-item--heavy" data-search>Изменяли второй половине в своем сердце нечистым воззрением на лиц противоположного пола;</p>
+          <p class="ev-item ev-item--heavy" data-search>Доводили вторую половину до измены постоянным отказом в супружеской близости;</p>
+          <p class="ev-item ev-item--heavy" data-search>Обращались к литературе, научающей разнообразию плотских отношений;</p>
+          <p class="ev-item ev-item--heavy" data-search>Учили детей «безопасному сексу»;</p>
+          <p class="ev-item ev-item--heavy" data-search>Не сохранили чистоту во вдовстве <em>(желательно хранить верность умершей половине до конца своих дней)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Одобряли блуд, любодеяние, измены, разводы, брак с разведенными и прочие грехи, характерные для блудной страсти;</p>
+          <p class="ev-item ev-item--heavy" data-search>Насмехались над целомудрием, девством, честным браком, супружеской верностью;</p>
+          <p class="ev-item ev-item--heavy" data-search>Считали, что брак дает право на плотские отношения без рождения детей;</p>
+          <p class="ev-item ev-item--heavy" data-search>Сквернословили <em>(матерщина)</em>;</p>
+          <p class="ev-item ev-item--heavy" data-search>Громко заразительно смеялись;</p>
+          <p class="ev-item ev-item--heavy" data-search>Мужья принуждали жен носить нецеломудренную одежду;</p>
+          <p class="ev-item ev-item--heavy" data-search>Старшие принуждали младших носить нецеломудренную одежду;</p>
+          <p class="ev-item ev-item--heavy" data-search>Произносили шутки с блудным подтекстом;</p>
+          <p class="ev-item ev-item--heavy" data-search>Смотрели юмористические передачи, в которых присутствовала тема блуда;</p>
+        </div>
+      </div>
+
+      <div class="ev-sub ev-sub--light">
+        <div class="ev-sub-head" tabindex="0">
+          <div class="ev-sub-title"><strong>Условно простительные грехи</strong></div>
+          <span class="ev-sub-arrow">＋</span>
+        </div>
+        <div class="ev-sub-body" hidden>
+          <p class="ev-item ev-item--light" data-search>Имели кратковременное похотное чувство от случайно услышанного, увиденного или вспомнившегося;</p>
+          <p class="ev-item ev-item--light" data-search>Участвовали в праздничных застольях с лицами противоположного пола без своей (-го) супруги (-а);</p>
+          <p class="ev-item ev-item--light" data-search>Часто смеялись по всякому пустяку;</p>
+          <p class="ev-item ev-item--light" data-search>Умеренно применяли косметику <em>(не соглашались с тем, какими нас сотворил Бог)</em>;</p>
+          <p class="ev-item ev-item--light" data-search>Имели наивные мечтания о любви, заимствованные из романов и поэтических произведений, противоречащие христианскому пониманию любви и брака.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  function init(){
+    const root=document.getElementById('evangelie-page');
+    if(!root||root.dataset.evInit==='1')return;
+    root.dataset.evInit='1';
+
+    const all=(s,c=root)=>Array.from(c.querySelectorAll(s));
+
+    let fontLevel=0;
+    function applyFontLevel(){
+      ['ev-font-minus-2','ev-font-minus-1','ev-font-plus-1','ev-font-plus-2',
+       'ev-font-plus-3','ev-font-plus-4','ev-font-plus-5'].forEach(c=>root.classList.remove(c));
+      if(fontLevel<0)root.classList.add('ev-font-minus-'+Math.abs(fontLevel));
+      if(fontLevel>0)root.classList.add('ev-font-plus-'+fontLevel);
+    }
+
+    function setSection(sec,open){
+      const body=sec.querySelector('.ev-section-body');
+      const btn=sec.querySelector('[data-action="section-toggle"]');
+      const head=sec.querySelector('.ev-section-head');
+      if(!body)return;
+      body.hidden=!open;
+      if(btn)btn.textContent=open?'Свернуть раздел':'Развернуть раздел';
+      if(head)head.classList.toggle('is-open',open);
+    }
+    function setSub(sub,open){
+      const body=sub.querySelector('.ev-sub-body');
+      const head=sub.querySelector('.ev-sub-head');
+      const arrow=sub.querySelector('.ev-sub-arrow');
+      if(!body)return;
+      body.hidden=!open;
+      if(head){head.classList.toggle('is-open',open);head.setAttribute('aria-expanded',open);}
+      if(arrow)arrow.textContent=open?'−':'＋';
+    }
+    function allSectionsOpen(){
+      const secs=all('.ev-section');
+      return secs.length && secs.every(s=>!s.querySelector('.ev-section-body').hidden);
+    }
+    function allSubsOpen(){
+      const subs=all('.ev-sub');
+      return subs.length && subs.every(s=>!s.querySelector('.ev-sub-body').hidden);
+    }
+    function updateGlobalButtons(){
+      const b1=root.querySelector('[data-action="open-all-sections"]');
+      const b2=root.querySelector('[data-action="open-all"]');
+      if(b1)b1.textContent=allSectionsOpen()?'Свернуть все разделы':'Развернуть все разделы';
+      if(b2)b2.textContent=allSubsOpen()?'Свернуть все грехи':'Развернуть все грехи';
+    }
+
+    all('.ev-section-head').forEach(h=>{
+      h.addEventListener('click',()=>{
+        const sec=h.closest('.ev-section');
+        setSection(sec,sec.querySelector('.ev-section-body').hidden);
+        updateGlobalButtons();
+      });
+    });
+    all('.ev-sub-head').forEach(h=>{
+      h.addEventListener('click',()=>{
+        const sub=h.closest('.ev-sub');
+        setSub(sub,sub.querySelector('.ev-sub-body').hidden);
+        updateGlobalButtons();
+      });
+      h.addEventListener('keydown',e=>{
+        if(e.key==='Enter'||e.key===' '){e.preventDefault();h.click();}
+      });
+    });
+    all('button[data-action]').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        const a=btn.dataset.action;
+        if(a==='section-toggle'){
+          e.stopPropagation();
+          const sec=btn.closest('.ev-section');
+          setSection(sec,sec.querySelector('.ev-section-body').hidden);
+          updateGlobalButtons();
+        }
+        if(a==='open-all-sections'){
+          const open=!allSectionsOpen();
+          all('.ev-section').forEach(s=>setSection(s,open));
+          updateGlobalButtons();
+        }
+        if(a==='open-all'){
+          const open=!allSubsOpen();
+          all('.ev-section').forEach(s=>setSection(s,open));
+          all('.ev-sub').forEach(s=>setSub(s,open));
+          updateGlobalButtons();
+        }
+        if(a==='font-minus'){fontLevel=Math.max(-2,fontLevel-1);applyFontLevel();}
+        if(a==='font-plus'){fontLevel=Math.min(5,fontLevel+1);applyFontLevel();}
+        if(a==='font-reset'){fontLevel=0;applyFontLevel();}
+        if(a==='clear-search'){
+          const inp=root.querySelector('.ev-search-input');
+          if(inp)inp.value='';
+          clearHighlights();
+        }
+      });
+    });
+
+    const input=root.querySelector('.ev-search-input');
+    const status=root.querySelector('.ev-search-status');
+    const counter=root.querySelector('.ev-search-current');
+    const searchBox=root.querySelector('.ev-search');
+    let hits=[],active=-1;
+
+    function clearHighlights(){
+      all('mark.ev-hit').forEach(m=>{
+        const p=m.parentNode;
+        if(!p)return;
+        p.replaceChild(document.createTextNode(m.textContent),m);
+        p.normalize();
+      });
+      hits=[];active=-1;updateNav();
+    }
+    function updateNav(){
+      const has=hits.length>0;
+      const prev=root.querySelector('[data-action="prev-hit"]');
+      const next=root.querySelector('[data-action="next-hit"]');
+      if(prev)prev.disabled=!has;
+      if(next)next.disabled=!has;
+      if(counter)counter.textContent=has?`${active+1} / ${hits.length}`:'';
+      hits.forEach((m,i)=>m.classList.toggle('ev-hit-active',i===active));
+    }
+    function openParents(el){
+      const sec=el.closest('.ev-section');
+      const sub=el.closest('.ev-sub');
+      if(sec)setSection(sec,true);
+      if(sub)setSub(sub,true);
+    }
+    function goToHit(i){
+      if(!hits.length)return;
+      active=(i+hits.length)%hits.length;
+      const m=hits[active];
+      openParents(m);
+      updateNav();
+      setTimeout(()=>{
+        const r=m.getBoundingClientRect();
+        const top=r.top+window.scrollY-(window.innerHeight/2)+(r.height/2);
+        window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+      },80);
+    }
+    function escapeRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+    function doSearch(q,jump){
+      clearHighlights();
+      q=q.trim();
+      if(!q){
+        if(status)status.textContent='';
+        if(searchBox)searchBox.classList.remove('ev-no-results');
+        return;
+      }
+      const needle=q.toLocaleLowerCase('ru-RU');
+      all('[data-search]').forEach(el=>{
+        if(el.textContent.toLocaleLowerCase('ru-RU').includes(needle))openParents(el);
+      });
+      const re=new RegExp(escapeRe(q),'gi');
+      all('[data-search]').forEach(el=>{
+        const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{
+          acceptNode(n){
+            if(!n.nodeValue||!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+            if(n.parentElement&&n.parentElement.closest('mark.ev-hit'))return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        const nodes=[];
+        while(walker.nextNode())nodes.push(walker.currentNode);
+        nodes.forEach(node=>{
+          const text=node.nodeValue;
+          re.lastIndex=0;
+          if(!re.test(text))return;
+          re.lastIndex=0;
+          const frag=document.createDocumentFragment();
+          let last=0,m;
+          while((m=re.exec(text))!==null){
+            if(m.index>last)frag.appendChild(document.createTextNode(text.slice(last,m.index)));
+            const mark=document.createElement('mark');
+            mark.className='ev-hit';
+            mark.textContent=m[0];
+            frag.appendChild(mark);
+            hits.push(mark);
+            last=m.index+m[0].length;
+          }
+          if(last<text.length)frag.appendChild(document.createTextNode(text.slice(last)));
+          node.parentNode.replaceChild(frag,node);
+        });
+      });
+      if(hits.length){
+        active=0;
+        if(status)status.textContent='';
+        if(searchBox)searchBox.classList.remove('ev-no-results');
+        updateNav();
+        if(jump)goToHit(0);
+      }else{
+        active=-1;
+        if(status)status.textContent='Ничего не найдено';
+        if(searchBox)searchBox.classList.add('ev-no-results');
+        updateNav();
+      }
+    }
+    if(input){
+      input.addEventListener('keydown',e=>{
+        if(e.key==='Enter'){e.preventDefault();doSearch(input.value,true);}
+        else if(e.key==='ArrowRight'&&hits.length){e.preventDefault();goToHit(active+1);}
+        else if(e.key==='ArrowLeft'&&hits.length){e.preventDefault();goToHit(active-1);}
+      });
+    }
+    root.querySelectorAll('[data-action="prev-hit"]').forEach(b=>b.addEventListener('click',()=>goToHit(active-1)));
+    root.querySelectorAll('[data-action="next-hit"]').forEach(b=>b.addEventListener('click',()=>goToHit(active+1)));
+
+    const first=root.querySelector('.ev-section');
+    if(first)setSection(first,true);
+    updateGlobalButtons();
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+  window.addEventListener('load',init);
+})();
+</script>
+
+</body>
+</html>
