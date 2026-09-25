@@ -2,40 +2,32 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Прототип — Главная (чистая палитра в тон фона)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прототип — Главная (финал)</title>
 <style>
-  /* =========================================================
-     ЧИСТАЯ ПАЛИТРА — светлая, кремовая, в тон фону пустыни
-     ========================================================= */
   :root{
-    /* Поверхности — светлые, чистые */
-    --page-bg:      #faf5ec;   /* чистый тёплый кремовый — центральная колонка */
-    --card:         #ffffff;   /* чистый белый — карточки */
-    --card-soft:    #f7f1e6;   /* светлый крем — плашки, фоны иконок */
+    --page-bg:      #faf5ec;
+    --card:         #ffffff;
+    --card-soft:    #f7f1e6;
 
-    /* Акценты — кофейные, но глубокие и чистые */
-    --accent:        #8a6238;  /* кофе — главный акцент */
-    --accent-dark:   #6b4a2a;  /* тёмный кофе */
-    --accent-soft:   #efe4cf;  /* светлый крем с кофейным отливом */
+    --accent:        #8a6238;
+    --accent-dark:   #6b4a2a;
+    --accent-soft:   #efe4cf;
 
-    /* Границы — тёплые светлые */
     --border:        #e6dcc7;
     --border-soft:   #efe7d5;
 
-    /* Баннер — глубокий кофейный градиент */
     --banner-grad-1: #4a3826;
     --banner-grad-2: #6b5138;
     --banner-grad-3: #8a6b48;
     --banner-text:   #fdfaf2;
 
-    /* Текст — тёплый, но чистый */
     --text:          #2e2418;
     --text-2:        #4d4032;
-    --muted:         #8c7f68;
+    --muted:         #6f6350;
 
-    /* Тени — очень мягкие */
-    --shadow:        0 4px 16px rgba(107,74,42,.07);
-    --shadow-hover:  0 8px 26px rgba(107,74,42,.13);
+    --shadow:        0 4px 18px rgba(74,52,28,.10);
+    --shadow-hover:  0 12px 32px rgba(74,52,28,.20);
 
     --r-card:        10px;
     --r-btn:         8px;
@@ -44,9 +36,6 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
 
-  /* =========================================================
-     ФОН — пустыня
-     ========================================================= */
   html{
     background-color:#e8dfd0;
     background-image:url('https://uralzvon.site/wp-content/uploads/2026/08/gemini-2.5-flash-image_professional_photo_of_Wide_horizontal_16_9_cinematic_photo_of_the_Jordanian_dese-0_2.jpg');
@@ -54,6 +43,14 @@
     background-position:center center;
     background-attachment:fixed;
     background-repeat:no-repeat;
+  }
+  html::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:linear-gradient(180deg, rgba(250,245,236,.15) 0%, rgba(250,245,236,.35) 100%);
+    pointer-events:none;
+    z-index:0;
   }
 
   body{
@@ -63,6 +60,8 @@
     line-height:1.55;
     font-size:17px;
     -webkit-font-smoothing:antialiased;
+    position:relative;
+    z-index:1;
   }
 
   h1,h2,h3{font-family:'Roboto Slab', 'PT Serif', serif;font-weight:700;color:var(--text);line-height:1.2;}
@@ -72,13 +71,11 @@
   .section-head a{color:var(--accent);text-decoration:none;font-size:15px;}
   .section-head a:hover{text-decoration:underline;}
 
-  /* =========================================================
-     ШАПКА — как и была, светлая кремовая с тёплым низом
-     ========================================================= */
   .site-header{
     position:relative;
     background:#ffffff;
     border-bottom:1px solid var(--border);
+    box-shadow:0 2px 12px rgba(74,52,28,.06);
   }
   .site-header::before{
     content:"";
@@ -206,25 +203,23 @@
   .header-nav ul li a:hover{color:var(--accent);}
   .header-nav ul li a:hover::after{transform:scaleX(1);}
 
-  /* =========================================================
-     ЦЕНТРАЛЬНАЯ КОЛОНКА — чистая кремовая, светлая
-     ========================================================= */
+  /* ОТСТУП МЕЖДУ ШАПКОЙ И "ДОРОГИЕ БРАТЬЯ" УБРАН */
   .wrap{
     max-width:1100px;
     margin:0 auto;
-    padding:50px 40px 50px 40px;
-    background:var(--page-bg);
+    padding:0 40px 50px 40px;
+    background:rgba(250,245,236,.96);
+    border-radius:0;
+    box-shadow:0 8px 40px rgba(74,52,28,.18);
   }
 
-  /* =========================================================
-     ПРИВЕТСТВИЕ
-     ========================================================= */
+  /* прижимаем приветствие к шапке */
   .greeting{
     display:grid;
     grid-template-columns:1.1fr 1fr;
     gap:56px;
     align-items:center;
-    padding:0 0 32px;
+    padding:40px 0 32px;
     margin-bottom:24px;
   }
   .greeting-left h1{
@@ -305,6 +300,8 @@
     display:flex;gap:16px;align-items:flex-start;
     transition:.2s;
     box-shadow:0 2px 8px rgba(107,74,42,.04);
+    text-decoration:none;
+    color:inherit;
   }
   .feature:hover{
     transform:translateX(4px);
@@ -327,7 +324,6 @@
     font-size:13px;color:var(--muted);line-height:1.5;
   }
 
-  /* ========== ГЛАВНЫЙ БЛОК — ЯНДЕКС ========== */
   .hero-yandex{
     position:relative;border-radius:var(--r-card);overflow:hidden;
     background:linear-gradient(120deg,
@@ -338,6 +334,11 @@
     display:flex;flex-direction:column;justify-content:flex-end;
     box-shadow:0 10px 30px rgba(74,56,38,.25);
     text-decoration:none;
+    transition:.25s;
+  }
+  .hero-yandex:hover{
+    box-shadow:0 16px 42px rgba(74,56,38,.35);
+    transform:translateY(-2px);
   }
   .hero-yandex::before{
     content:"";position:absolute;inset:0;
@@ -363,14 +364,13 @@
   .hero-yandex .cta:hover{background:#fbf0da;transform:translateY(-2px);}
   .hero-yandex .cta svg{width:18px;height:18px;}
 
-  /* ========== ВТОРИЧНЫЕ УКАЗАТЕЛИ ========== */
   .secondary{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px;}
   .sec-card{
     background:var(--card);border-radius:var(--r-card);padding:26px 28px;
     box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;
-    border:1px solid var(--border-soft);transition:.2s;text-decoration:none;color:inherit;
+    border:1px solid var(--border-soft);transition:.25s;text-decoration:none;color:inherit;
   }
-  .sec-card:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+  .sec-card:hover{border-color:var(--accent-soft);transform:translateY(-3px);box-shadow:var(--shadow-hover);}
   .sec-card .row1{display:flex;align-items:center;justify-content:space-between;gap:12px;}
   .sec-card .icon{
     width:44px;height:44px;border-radius:var(--r-btn);
@@ -387,14 +387,13 @@
   .sec-card p{font-size:14px;color:var(--muted);}
   .sec-card .go{color:var(--accent);font-size:14px;font-weight:600;margin-top:6px;}
 
-  /* ========== ТРИ МАТЕРИАЛА ========== */
   .materials{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .mat-card{
     background:var(--card);border-radius:var(--r-card);overflow:hidden;
     box-shadow:var(--shadow);display:flex;flex-direction:column;
-    text-decoration:none;color:inherit;transition:.2s;border:1px solid var(--border-soft);
+    text-decoration:none;color:inherit;transition:.25s;border:1px solid var(--border-soft);
   }
-  .mat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+  .mat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--accent-soft);}
   .mat-card .thumb{
     height:200px;background:var(--card-soft);position:relative;overflow:hidden;
     border-bottom:1px solid var(--border-soft);
@@ -413,12 +412,13 @@
     padding:3px 9px;border-radius:var(--r-badge);align-self:flex-start;letter-spacing:.5px;
   }
 
-  /* ========== ЕВАНГЕЛЬСКИЕ ЗАПОВЕДИ ========== */
   .gospel{
     display:grid;grid-template-columns:1.1fr 1fr;gap:0;
     background:var(--card);border-radius:var(--r-card);overflow:hidden;
     box-shadow:var(--shadow);min-height:220px;border:1px solid var(--border-soft);
+    transition:.25s;
   }
+  .gospel:hover{box-shadow:var(--shadow-hover);}
   .gospel .left{
     background:linear-gradient(135deg,#f4ead4,#e8d6b3);
     padding:42px 44px;display:flex;flex-direction:column;justify-content:center;gap:14px;
@@ -433,16 +433,18 @@
   .gospel .left a{color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;}
   .gospel .left a:hover{text-decoration:underline;}
   .gospel .right{position:relative;background:#faf4e6;overflow:hidden;}
-  .gospel .right img{width:100%;height:100%;object-fit:cover;display:block;}
+  .gospel .right img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+  .gospel:hover .right img{transform:scale(1.03);}
 
-  /* ========== ПОСЛЕДНИЕ ВИДЕО ========== */
   .videos{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;}
   .vid-main{
     position:relative;border-radius:var(--r-card);overflow:hidden;
     background:#2b2118;color:var(--banner-text);min-height:340px;
     display:flex;flex-direction:column;justify-content:flex-end;
     text-decoration:none;box-shadow:var(--shadow);border:1px solid var(--border-soft);
+    transition:.25s;
   }
+  .vid-main:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
   .vid-main .thumb{
     position:absolute;inset:0;
     background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.75) 100%);
@@ -451,13 +453,17 @@
   .vid-main .thumb img{
     width:100%;height:100%;object-fit:cover;display:block;
     filter:brightness(.85);
+    transition:transform .5s;
   }
+  .vid-main:hover .thumb img{transform:scale(1.04);}
   .vid-main .play{
     position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;
     background:rgba(255,255,255,.94);display:grid;place-items:center;
     color:#2b2118;font-size:22px;z-index:2;
     box-shadow:0 6px 20px rgba(0,0,0,.32);
+    transition:.25s;
   }
+  .vid-main:hover .play{transform:scale(1.08);background:#ffffff;}
   .vid-main .body{position:relative;z-index:3;padding:28px 30px;}
   .vid-main .badge{
     display:inline-block;background:var(--accent);color:#ffffff;
@@ -472,14 +478,15 @@
     display:grid;grid-template-columns:120px 1fr;gap:16px;
     background:var(--card);border-radius:var(--r-card);padding:12px;
     box-shadow:var(--shadow);text-decoration:none;color:inherit;
-    transition:.2s;align-items:center;border:1px solid var(--border-soft);
+    transition:.25s;align-items:center;border:1px solid var(--border-soft);
   }
-  .vid-item:hover{transform:translateX(3px);border-color:var(--border);box-shadow:var(--shadow-hover);}
+  .vid-item:hover{transform:translateX(4px);border-color:var(--accent-soft);box-shadow:var(--shadow-hover);}
   .vid-item .mini{
     width:120px;height:78px;border-radius:var(--r-thumb);
     position:relative;overflow:hidden;
   }
-  .vid-item .mini img{width:100%;height:100%;object-fit:cover;display:block;}
+  .vid-item .mini img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+  .vid-item:hover .mini img{transform:scale(1.06);}
   .vid-item .mini::after{
     content:"▶";position:absolute;inset:0;
     display:grid;place-items:center;
@@ -490,12 +497,13 @@
   .vid-item .info h4{font-size:15px;line-height:1.35;margin-bottom:6px;font-family:'Roboto Slab',serif;}
   .vid-item .info .date{font-size:12px;color:var(--muted);}
 
-  /* ========== ОБ АВТОРЕ ========== */
   .about{
     background:var(--card);border-radius:var(--r-card);padding:34px 38px;
     box-shadow:var(--shadow);display:grid;grid-template-columns:96px 1fr;
     gap:26px;align-items:center;border:1px solid var(--border-soft);
+    transition:.25s;
   }
+  .about:hover{box-shadow:var(--shadow-hover);}
   .about .avatar{
     width:96px;height:96px;border-radius:50%;
     background:linear-gradient(135deg,#ecdcbc,#cdb894);
@@ -507,12 +515,13 @@
   .about p{font-size:15px;color:var(--text-2);margin-bottom:8px;}
   .about a{color:var(--accent);font-weight:600;text-decoration:none;font-size:14px;}
 
-  /* ========== ПОДВАЛ ========== */
   .site-footer{
     background:#3a2f24;
     color:#e6d9c2;
     padding:48px 24px 32px;
     margin-top:0;
+    position:relative;
+    z-index:1;
   }
   .site-footer .footer-inner{
     max-width:1140px;margin:0 auto;
@@ -530,7 +539,7 @@
   .site-footer p,
   .site-footer a{
     font-size:14px;
-    color:#c9b99a;
+    color:#d4c5a7;
     line-height:1.7;
     text-decoration:none;
   }
@@ -544,26 +553,27 @@
     font-weight:700;
     margin-top:12px;
     font-size:14px;
+    transition:.2s;
   }
-  .site-footer .btn-donate:hover{background:var(--accent-dark);}
+  .site-footer .btn-donate:hover{background:var(--accent-dark);transform:translateY(-1px);}
   .site-footer .bottom{
     max-width:1140px;margin:36px auto 0;
     padding-top:22px;
     border-top:1px solid rgba(255,255,255,.12);
     text-align:center;
     font-size:13px;
-    color:#a89977;
+    color:#b8a888;
   }
 
-  /* ========== АДАПТИВ ========== */
   @media (max-width:1200px){
     .wrap{
       max-width:100%;
-      padding:40px 32px 40px 32px;
+      margin:0;
+      padding:0 32px 40px 32px;
     }
   }
   @media (max-width:900px){
-    .wrap{padding:30px 22px 30px 22px;}
+    .wrap{padding:0 22px 30px 22px;}
     .secondary,.materials,.gospel,.videos{grid-template-columns:1fr;}
     .gospel .right{display:none;}
     .hero-yandex{padding:44px 28px;}
@@ -571,7 +581,7 @@
     .about{grid-template-columns:1fr;text-align:center;justify-items:center;}
     h2{font-size:24px;}
 
-    .greeting{grid-template-columns:1fr;gap:28px;padding:0 0 24px;}
+    .greeting{grid-template-columns:1fr;gap:28px;padding:28px 0 24px;}
     .greeting-left h1{font-size:32px;}
     .greeting-left h1 em{font-size:18px;}
 
@@ -589,7 +599,7 @@
     .site-footer .footer-inner{grid-template-columns:1fr;gap:28px;}
   }
   @media (max-width:520px){
-    .wrap{padding:20px 14px 24px 14px;}
+    .wrap{padding:0 14px 24px 14px;}
     .hero-yandex h1{font-size:23px;}
     .section{margin-bottom:44px;}
     .greeting-left h1{font-size:26px;}
@@ -608,9 +618,6 @@
 </head>
 <body>
 
-<!-- =========================================================
-     ШАПКА
-     ========================================================= -->
 <header class="site-header">
   <div class="header-main">
     <a href="#" class="logo">
@@ -647,12 +654,8 @@
   </nav>
 </header>
 
-<!-- =========================================================
-     ЦЕНТРАЛЬНАЯ КОЛОНКА — чистая кремовая
-     ========================================================= -->
 <div class="wrap">
 
-  <!-- ====== ПРИВЕТСТВИЕ ====== -->
   <section class="greeting">
     <div class="greeting-left">
       <h1>
@@ -660,11 +663,10 @@
         <em>здесь вы найдёте ответы на важные вопросы</em>
       </h1>
       <p class="lead">
-        Этот сайт — личная страница автора цикла бесед <strong>«О пути ко спасению»</strong>
-        Сергея Михайловича Масленникова. Всё, что собрано здесь, доступно бесплатно и без регистрации.
+        Этот сайт Училища покаяния, автора цикла бесед «О пути ко спасению» Сергея Михайловича Масленникова.
       </p>
-      <p class="lead" style="font-size:14px;color:var(--muted);">
-        Почта для вопросов: <a href="mailto:up@uralzvon.site">up@uralzvon.site</a>
+      <p class="lead">
+        <!-- допишите текст сюда -->
       </p>
       <div class="greeting-actions">
         <a class="btn btn-primary" href="#">Подписаться на рассылку</a>
@@ -673,31 +675,30 @@
     </div>
 
     <aside class="greeting-right">
-      <div class="feature">
+      <a class="feature" href="https://uralzvon.site/ob-avtore-2/">
         <span class="ico">📖</span>
         <div>
-          <div class="ttl">Беседы «О пути ко спасению»</div>
-          <div class="dsc">Цикл лекций для мирян, объясняющий основы покаяния и духовной жизни.</div>
+          <div class="ttl">Об авторе</div>
+          <div class="dsc">Сергей Михайлович Масленников — автор цикла бесед и серии книг.</div>
         </div>
-      </div>
-      <div class="feature">
+      </a>
+      <a class="feature" href="https://uralzvon.site/video/">
         <span class="ico">🎧</span>
         <div>
-          <div class="ttl">Аудио и видео</div>
-          <div class="dsc">Проповеди, лекции и ответы на вопросы в удобных форматах.</div>
+          <div class="ttl">Видео и аудио</div>
+          <div class="dsc">Лекции, ответы на вопросы.</div>
         </div>
-      </div>
-      <div class="feature">
+      </a>
+      <a class="feature" href="https://uralzvon.site/knigi/">
         <span class="ico">📚</span>
         <div>
-          <div class="ttl">Книги и статьи</div>
-          <div class="dsc">Труды автора и святоотеческое наследие в открытом доступе.</div>
+          <div class="ttl">Изданное</div>
+          <div class="dsc">Труды автора, книги, диски, статьи.</div>
         </div>
-      </div>
+      </a>
     </aside>
   </section>
 
-  <!-- ====== ГЛАВНЫЙ БЛОК — ЯНДЕКС ====== -->
   <section class="section">
     <a class="hero-yandex" href="https://disk.yandex.ru/d/HaM3w2kxv7xjlw" target="_blank">
       <span class="badge"><span class="dot"></span> Полный и актуальный архив</span>
@@ -732,7 +733,6 @@
     </div>
   </section>
 
-  <!-- ====== ТРИ ДУХОВНЫХ МАТЕРИАЛА ====== -->
   <section class="section">
     <div class="section-head"><h2>Духовные материалы</h2></div>
     <div class="materials">
@@ -778,7 +778,6 @@
     </div>
   </section>
 
-  <!-- ====== ЕВАНГЕЛЬСКИЕ ЗАПОВЕДИ ====== -->
   <section class="section">
     <div class="gospel">
       <div class="left">
@@ -795,7 +794,6 @@
     </div>
   </section>
 
-  <!-- ====== ПОСЛЕДНИЕ ВИДЕО ====== -->
   <section class="section">
     <div class="section-head">
       <h2>Последние видео</h2>
@@ -867,21 +865,10 @@
     </div>
   </section>
 
-  <!-- ====== ОБ АВТОРЕ ====== -->
-  <section class="section">
-    <div class="about">
-      <div class="avatar">С</div>
-      <div>
-        <h3>Об авторе</h3>
-        <p>Сергей Михайлович Масленников — автор цикла бесед «О пути ко спасению», серии книг «Страсти — болезни души» и «Христианские добродетели».</p>
-        <a href="https://uralzvon.site/ob-avtore-2/">Подробнее об авторе →</a>
-      </div>
-    </div>
-  </section>
+  <!-- Блок "Об авторе" внизу убран -->
 
 </div>
 
-<!-- ====== ПОДВАЛ САЙТА ====== -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div>
