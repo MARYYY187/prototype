@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Прототип — Главная (скругления + реальные картинки)</title>
+<style>
+  /* ========== ДИЗАЙН-ТОКЕНЫ ========== */
+  :root{
+    --bg:            #f5f0e6;
+    --card:          #ffffff;
+    --accent:        #936332;
+    --accent-dark:   #7a5028;
+    --beige:         #e9dcc4;
+    --beige-soft:    #f8f4ed;
+    --border:        #d9c8ac;
+    --border-soft:   #e7dfd4;
+    --text:          #25211c;
+    --muted:         #766f65;
+    --shadow:        0 4px 16px rgba(96,82,64,.08);
+    --shadow-hover:  0 8px 26px rgba(96,82,64,.14);
+    /* Скругления — умеренные, не пилюли */
+    --r-card:        10px;
+    --r-btn:         8px;
+    --r-badge:       6px;
+    --r-thumb:       8px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'PT Serif', Georgia, serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.55;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1140px;margin:0 auto;padding:48px 24px 80px;}
+  h1,h2,h3{font-family:'Roboto Slab', 'PT Serif', serif;font-weight:700;color:#3a332b;line-height:1.2;}
+  h2{font-size:28px;margin-bottom:20px;}
+  .section{margin-bottom:64px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+  .section-head a{color:var(--accent);text-decoration:none;font-size:15px;}
+  .section-head a:hover{text-decoration:underline;}
+
+  /* ========== ПРИВЕТСТВИЕ ========== */
+  .greeting{position:relative;padding:56px 24px 64px;text-align:center;margin-bottom:56px;}
+  .greeting::before{
+    content:"";display:block;width:100%;height:1px;
+    background:linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%);
+    margin:0 auto 44px;
+  }
+  .greeting .ornament{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:22px;}
+  .greeting .ornament .line{width:60px;height:1px;background:var(--border);}
+  .greeting .ornament .cross{color:var(--accent);font-size:22px;line-height:1;}
+  .greeting h1{
+    font-size:48px;line-height:1.15;color:#3a332b;margin-bottom:26px;
+    letter-spacing:-0.5px;font-family:'Roboto Slab','PT Serif',serif;font-weight:700;
+  }
+  .greeting h1 .em{
+    display:block;font-style:italic;font-weight:400;color:var(--accent);
+    font-size:34px;margin-top:6px;letter-spacing:0;
+  }
+  .greeting .divider{width:80px;height:2px;background:var(--accent);margin:0 auto 34px;opacity:.55;}
+  .greeting .lead{
+    max-width:720px;margin:0 auto 18px;font-size:19px;line-height:1.7;
+    color:#4a433b;text-align:center;
+  }
+  .greeting .lead strong{color:#3a332b;font-weight:700;}
+  .greeting .lead a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(147,99,50,.35);transition:.2s;padding-bottom:1px;}
+  .greeting .lead a:hover{border-bottom-color:var(--accent);}
+  .greeting .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px;}
+  .greeting .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:13px 28px;
+    border-radius:var(--r-btn);font-size:15px;font-weight:700;text-decoration:none;
+    font-family:inherit;transition:.2s;letter-spacing:.2px;
+  }
+  .greeting .btn-primary{background:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(147,99,50,.22);}
+  .greeting .btn-primary:hover{background:var(--accent-dark);transform:translateY(-1px);}
+  .greeting .btn-secondary{background:transparent;color:var(--accent);border:1.5px solid var(--border);}
+  .greeting .btn-secondary:hover{background:var(--beige-soft);border-color:var(--accent);}
+
+  /* ========== ГЛАВНЫЙ БЛОК — ЯНДЕКС ========== */
+  .hero-yandex{
+    position:relative;border-radius:var(--r-card);overflow:hidden;
+    background:linear-gradient(120deg,#2b2118 0%,#5a4326 55%,#8a6a3f 100%);
+    color:#fdfaf4;padding:64px 56px 56px;min-height:320px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    box-shadow:0 10px 30px rgba(74,55,32,.26);
+    text-decoration:none;
+  }
+  .hero-yandex::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(600px 300px at 78% 20%, rgba(255,220,160,.22), transparent 60%),
+      radial-gradient(400px 220px at 15% 90%, rgba(255,200,120,.10), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-yandex .badge{
+    position:relative;display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);
+    color:#fbf3e2;padding:6px 14px;border-radius:var(--r-badge);
+    font-size:13px;letter-spacing:.3px;align-self:flex-start;margin-bottom:20px;
+  }
+  .hero-yandex .badge .dot{width:7px;height:7px;border-radius:50%;background:#8ddc7a;box-shadow:0 0 10px #8ddc7a;}
+  .hero-yandex h1{position:relative;font-size:38px;color:#fff;margin-bottom:12px;letter-spacing:.2px;}
+  .hero-yandex p{position:relative;max-width:640px;font-size:17px;color:rgba(255,245,225,.85);margin-bottom:28px;}
+  .hero-yandex .cta{
+    position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;
+    background:#f6e6c8;color:#3a2a14;padding:15px 30px;border-radius:var(--r-btn);
+    font-size:16px;font-weight:700;text-decoration:none;transition:.2s;font-family:inherit;
+  }
+  .hero-yandex .cta:hover{background:#fff1d5;transform:translateY(-2px);}
+  .hero-yandex .cta svg{width:18px;height:18px;}
+
+  /* ========== ВТОРИЧНЫЕ УКАЗАТЕЛИ ========== */
+  .secondary{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px;}
+  .sec-card{
+    background:var(--card);border-radius:var(--r-card);padding:26px 28px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;
+    border:1px solid var(--border-soft);transition:.2s;text-decoration:none;color:inherit;
+  }
+  .sec-card:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+  .sec-card .row1{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .sec-card .icon{
+    width:44px;height:44px;border-radius:var(--r-btn);
+    display:grid;place-items:center;background:var(--beige-soft);
+    color:var(--accent);font-size:20px;border:1px solid var(--border-soft);
+  }
+  .sec-card .status{
+    font-size:12px;padding:4px 10px;border-radius:var(--r-badge);
+    background:#fbe9e0;color:#b25a2f;font-weight:600;letter-spacing:.3px;
+  }
+  .sec-card .status.warn{background:#fdeaea;color:#c0392b;}
+  .sec-card h3{font-size:20px;margin:4px 0 2px;}
+  .sec-card p{font-size:14px;color:var(--muted);}
+  .sec-card .go{color:var(--accent);font-size:14px;font-weight:600;margin-top:6px;}
+
+  /* ========== ТРИ МАТЕРИАЛА (с реальными картинками) ========== */
+  .materials{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .mat-card{
+    background:var(--card);border-radius:var(--r-card);overflow:hidden;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;
+    text-decoration:none;color:inherit;transition:.2s;border:1px solid var(--border-soft);
+  }
+  .mat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+  .mat-card .thumb{
+    height:200px;background:var(--beige-soft);position:relative;overflow:hidden;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .mat-card .thumb img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .4s;
+  }
+  .mat-card:hover .thumb img{transform:scale(1.04);}
+  .mat-card .body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .mat-card h3{font-size:19px;line-height:1.3;}
+  .mat-card p{font-size:14px;color:var(--muted);flex:1;}
+  .mat-card .read{margin-top:8px;color:var(--accent);font-size:14px;font-weight:700;}
+  .mat-card .tag{
+    font-size:11px;color:#8a6a3f;background:var(--beige);
+    padding:3px 9px;border-radius:var(--r-badge);align-self:flex-start;letter-spacing:.5px;
+  }
+
+  /* ========== ЕВАНГЕЛЬСКИЕ ЗАПОВЕДИ ========== */
+  .gospel{
+    display:grid;grid-template-columns:1.1fr 1fr;gap:0;
+    background:var(--card);border-radius:var(--r-card);overflow:hidden;
+    box-shadow:var(--shadow);min-height:220px;border:1px solid var(--border-soft);
+  }
+  .gospel .left{
+    background:linear-gradient(135deg,#f3ead7,#e6d3ae);
+    padding:42px 44px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+  }
+  .gospel .left .badge{
+    font-size:12px;background:#fff;color:var(--accent);
+    padding:4px 12px;border-radius:var(--r-badge);align-self:flex-start;
+    font-weight:700;letter-spacing:.5px;border:1px solid var(--border-soft);
+  }
+  .gospel h2{font-size:26px;margin:0;}
+  .gospel .left p{color:#6b5a44;font-size:15px;max-width:420px;}
+  .gospel .left a{color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;}
+  .gospel .left a:hover{text-decoration:underline;}
+  .gospel .right{
+    position:relative;background:#fffaf0;overflow:hidden;
+  }
+  .gospel .right img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  /* ========== ПОСЛЕДНИЕ ВИДЕО ========== */
+  .videos{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;}
+  .vid-main{
+    position:relative;border-radius:var(--r-card);overflow:hidden;
+    background:#1c1611;color:#fff;min-height:340px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    text-decoration:none;box-shadow:var(--shadow);border:1px solid var(--border-soft);
+  }
+  .vid-main .thumb{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(0,0,0,.78) 100%);
+    z-index:1;
+  }
+  .vid-main .thumb img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:brightness(.85);
+  }
+  .vid-main .play{
+    position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;
+    background:rgba(255,255,255,.92);display:grid;place-items:center;
+    color:#2b2118;font-size:22px;z-index:2;
+    box-shadow:0 6px 20px rgba(0,0,0,.35);
+  }
+  .vid-main .body{position:relative;z-index:3;padding:28px 30px;}
+  .vid-main .badge{
+    display:inline-block;background:var(--accent);color:#fff;
+    font-size:12px;padding:5px 12px;border-radius:var(--r-badge);
+    margin-bottom:12px;font-weight:600;letter-spacing:.3px;
+  }
+  .vid-main h3{color:#fff;font-size:24px;line-height:1.25;margin-bottom:8px;}
+  .vid-main .date{color:rgba(255,255,255,.75);font-size:13px;}
+
+  .vid-list{display:flex;flex-direction:column;gap:14px;}
+  .vid-item{
+    display:grid;grid-template-columns:120px 1fr;gap:16px;
+    background:var(--card);border-radius:var(--r-card);padding:12px;
+    box-shadow:var(--shadow);text-decoration:none;color:inherit;
+    transition:.2s;align-items:center;border:1px solid var(--border-soft);
+  }
+  .vid-item:hover{transform:translateX(3px);border-color:var(--border);box-shadow:var(--shadow-hover);}
+  .vid-item .mini{
+    width:120px;height:78px;border-radius:var(--r-thumb);
+    position:relative;overflow:hidden;
+  }
+  .vid-item .mini img{width:100%;height:100%;object-fit:cover;display:block;}
+  .vid-item .mini::after{
+    content:"▶";position:absolute;inset:0;
+    display:grid;place-items:center;
+    color:#fff;font-size:16px;
+    background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.45));
+    text-shadow:0 1px 4px rgba(0,0,0,.6);
+  }
+  .vid-item .info h4{font-size:15px;line-height:1.35;margin-bottom:6px;font-family:'Roboto Slab',serif;}
+  .vid-item .info .date{font-size:12px;color:var(--muted);}
+
+  /* ========== ОБ АВТОРЕ ========== */
+  .about{
+    background:var(--card);border-radius:var(--r-card);padding:34px 38px;
+    box-shadow:var(--shadow);display:grid;grid-template-columns:96px 1fr;
+    gap:26px;align-items:center;border:1px solid var(--border-soft);
+  }
+  .about .avatar{
+    width:96px;height:96px;border-radius:50%;
+    background:linear-gradient(135deg,#e9dcc4,#c9b48e);
+    display:grid;place-items:center;color:#8a6a3f;font-size:36px;
+    border:1px solid var(--border-soft);overflow:hidden;
+  }
+  .about .avatar img{width:100%;height:100%;object-fit:cover;}
+  .about h3{font-size:20px;margin-bottom:8px;}
+  .about p{font-size:15px;color:#4a433b;margin-bottom:8px;}
+  .about a{color:var(--accent);font-weight:600;text-decoration:none;font-size:14px;}
+
+  /* ========== ФУТЕР ========== */
+  .footer{
+    text-align:center;padding:28px 0 0;color:var(--muted);font-size:13px;
+    border-top:1px solid var(--border);margin-top:40px;
+  }
+
+  /* ========== АДАПТИВ ========== */
+  @media (max-width:900px){
+    .secondary,.materials,.gospel,.videos{grid-template-columns:1fr;}
+    .gospel .right{display:none;}
+    .hero-yandex{padding:44px 28px;}
+    .hero-yandex h1{font-size:28px;}
+    .about{grid-template-columns:1fr;text-align:center;justify-items:center;}
+    h2{font-size:24px;}
+    .greeting h1{font-size:34px;}
+    .greeting h1 .em{font-size:24px;}
+    .greeting .lead{font-size:17px;}
+    .greeting{padding:40px 18px 48px;}
+  }
+  @media (max-width:520px){
+    .wrap{padding:24px 14px 60px;}
+    .hero-yandex h1{font-size:23px;}
+    .section{margin-bottom:44px;}
+    .greeting h1{font-size:27px;}
+    .greeting h1 .em{font-size:19px;}
+    .greeting .lead{font-size:16px;}
+    .greeting .actions{flex-direction:column;align-items:stretch;}
+    .greeting .btn{justify-content:center;}
+    .vid-item{grid-template-columns:90px 1fr;gap:12px;}
+    .vid-item .mini{width:90px;height:62px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ====== ПРИВЕТСТВИЕ ====== -->
+  <section class="greeting">
+    <div class="ornament">
+      <span class="line"></span>
+      <span class="cross">✝</span>
+      <span class="line"></span>
+    </div>
+
+    <h1>
+      Дорогие братья и сестры!
+      <span class="em">мир вам и благословение</span>
+    </h1>
+
+    <div class="divider"></div>
+
+    <p class="lead">
+      Этот сайт — личная страница автора цикла бесед <strong>«О пути ко спасению»</strong>
+      Сергея Михайловича Масленникова. Здесь вы можете задать свои вопросы и ознакомиться
+      с книгами, лекциями и программами с его участием, а также историями людей,
+      занимающихся в Школе покаяния.
+    </p>
+
+    <p class="lead" style="font-size:16px;color:var(--muted);">
+      Вопросы принимаются по электронной почте:
+      <a href="mailto:up@uralzvon.site">up@uralzvon.site</a>
+    </p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="https://uralzvon.site/podpiska_google/">Подписаться на рассылку</a>
+      <a class="btn btn-secondary" href="mailto:up@uralzvon.site">Задать вопрос</a>
+    </div>
+  </section>
+
+  <!-- ====== ГЛАВНЫЙ БЛОК — ЯНДЕКС ====== -->
+  <section class="section">
+    <a class="hero-yandex" href="https://disk.yandex.ru/d/HaM3w2kxv7xjlw" target="_blank">
+      <span class="badge"><span class="dot"></span> Полный и актуальный архив</span>
+      <h1>Алфавитный указатель<br>на Яндекс.Диске</h1>
+      <p>Единственный полностью заполненный указатель всех бесед, лекций и ответов на вопросы.</p>
+      <span class="cta">
+        Перейти к указателю
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <div class="secondary">
+      <a class="sec-card" href="https://uralzvon.site/alfavitnyi-ukazatel-rutube/">
+        <div class="row1">
+          <span class="icon">▶</span>
+          <span class="status">в разработке</span>
+        </div>
+        <h3>Алфавитный указатель (RuTube)</h3>
+        <p>Указатель пополняется. Часть бесед доступна в видеоразделе.</p>
+        <span class="go">Перейти →</span>
+      </a>
+
+      <a class="sec-card" href="#" style="opacity:.85;cursor:default;">
+        <div class="row1">
+          <span class="icon">▶</span>
+          <span class="status warn">недоступен</span>
+        </div>
+        <h3>Алфавитный указатель (YouTube)</h3>
+        <p>Сервис заблокирован на территории РФ. Используйте указатель Яндекс или RuTube.</p>
+        <span class="go" style="color:#b25a2f;">Недоступен</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====== ТРИ ДУХОВНЫХ МАТЕРИАЛА (реальные картинки) ====== -->
+  <section class="section">
+    <div class="section-head"><h2>Духовные материалы</h2></div>
+    <div class="materials">
+      <a class="mat-card" href="https://uralzvon.site/dnevnik-kayushhegosya/">
+        <div class="thumb">
+          <img src="https://uralzvon.site/wp-content/uploads/2026/09/Дневник-кающегося.png"
+               alt="Дневник кающегося" loading="lazy"
+               onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#e9dcc4,#d5bf9b)'">
+        </div>
+        <div class="body">
+          <h3>Дневник кающегося</h3>
+          <p>Практическое руководство для исповеди и духовной работы над собой.</p>
+          <span class="read">Открыть →</span>
+        </div>
+      </a>
+
+      <a class="mat-card" href="https://uralzvon.site/video/oglasitelnye-besedy/">
+        <div class="thumb">
+          <img src="https://uralzvon.site/wp-content/uploads/2026/09/Огласительные.png"
+               alt="Огласительные беседы" loading="lazy"
+               onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#e9dcc4,#d5bf9b)'">
+        </div>
+        <div class="body">
+          <h3>Огласительные беседы</h3>
+          <p>Основы веры для готовящихся к Крещению и желающих понять церковную жизнь.</p>
+          <span class="read">Смотреть →</span>
+        </div>
+      </a>
+
+      <a class="mat-card" href="https://uralzvon.site/grexi-smertnye/">
+        <div class="thumb">
+          <img src="https://uralzvon.site/wp-content/uploads/2026/09/Грехи-смертные.png"
+               alt="Грехи смертные" loading="lazy"
+               onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#e9dcc4,#d5bf9b)'">
+        </div>
+        <div class="body">
+          <span class="tag">ОДНА СТАТЬЯ</span>
+          <h3>Грехи смертные</h3>
+          <p>Перечень и краткое объяснение смертных грехов в одной статье.</p>
+          <span class="read">Читать →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====== ЕВАНГЕЛЬСКИЕ ЗАПОВЕДИ (с реальной иконой-картинкой) ====== -->
+  <section class="section">
+    <div class="gospel">
+      <div class="left">
+        <span class="badge">НОВЫЙ РАЗДЕЛ</span>
+        <h2>Евангельские заповеди</h2>
+        <p>Разбор заповедей Христа с толкованиями святых отцов и практическими пояснениями.</p>
+        <a href="https://uralzvon.site/biblioteka/evangelskie-zapovedi/">Изучать заповеди →</a>
+      </div>
+      <div class="right">
+        <img src="https://uralzvon.site/wp-content/uploads/2021/06/Явление-Христа-народу.jpg"
+             alt="Евангельские заповеди" loading="lazy"
+             onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#e9dcc4,#d5bf9b)'">
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ПОСЛЕДНИЕ ВИДЕО (реальные постеры) ====== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Последние видео</h2>
+      <a href="https://uralzvon.site/video/">Все видео →</a>
+    </div>
+    <div class="videos">
+      <!-- Большое видео -->
+      <a class="vid-main" href="https://uralzvon.site/vopros-6223/">
+        <span class="thumb">
+          <img src="https://uralzvon.site/wp-content/uploads/2026/05/unnamed-2-1.jpg"
+               alt="Вернуться в церковь или прийти впервые?" loading="lazy">
+        </span>
+        <span class="play">▶</span>
+        <div class="body">
+          <span class="badge">Ответы на вопросы</span>
+          <h3>Вернуться в церковь или прийти впервые?</h3>
+          <span class="date">14.07.2026</span>
+        </div>
+      </a>
+
+      <!-- Список малых -->
+      <div class="vid-list">
+        <a class="vid-item" href="https://uralzvon.site/vopros-6182/">
+          <div class="mini">
+            <img src="https://uralzvon.site/wp-content/uploads/2026/05/unnamed-389x389.jpg"
+                 alt="" loading="lazy"
+                 onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#c9b48e,#8a6a3f)'">
+          </div>
+          <div class="info">
+            <h4>Что спасать: родину или душу?</h4>
+            <div class="date">14.07.2026</div>
+          </div>
+        </a>
+
+        <a class="vid-item" href="https://uralzvon.site/vopros-6011/">
+          <div class="mini">
+            <img src="https://uralzvon.site/wp-content/uploads/2026/04/unnamed.png"
+                 alt="" loading="lazy"
+                 onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#c9b48e,#8a6a3f)'">
+          </div>
+          <div class="info">
+            <h4>Духовные проблемы разрушают Россию</h4>
+            <div class="date">30.04.2026</div>
+          </div>
+        </a>
+
+        <a class="vid-item" href="https://uralzvon.site/vopros-6135/">
+          <div class="mini">
+            <img src="https://uralzvon.site/wp-content/uploads/2026/04/unnamed-1.jpg"
+                 alt="" loading="lazy"
+                 onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#c9b48e,#8a6a3f)'">
+          </div>
+          <div class="info">
+            <h4>Как христианке относиться к взрослым детям?</h4>
+            <div class="date">12.04.2026</div>
+          </div>
+        </a>
+
+        <a class="vid-item" href="https://uralzvon.site/vopros-6152/">
+          <div class="mini">
+            <img src="https://uralzvon.site/wp-content/uploads/2026/04/unnamed.jpg"
+                 alt="" loading="lazy"
+                 onerror="this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#c9b48e,#8a6a3f)'">
+          </div>
+          <div class="info">
+            <h4>Кто может учить Вере, и какие проблемы у него могут быть</h4>
+            <div class="date">05.04.2026</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ОБ АВТОРЕ ====== -->
+  <section class="section">
+    <div class="about">
+      <div class="avatar">С</div>
+      <div>
+        <h3>Об авторе</h3>
+        <p>Сергей Михайлович Масленников — автор цикла бесед «О пути ко спасению», серии книг «Страсти — болезни души» и «Христианские добродетели».</p>
+        <a href="https://uralzvon.site/ob-avtore-2/">Подробнее об авторе →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">© Масленников Сергей Михайлович</div>
+</div>
+</body>
+</html>
